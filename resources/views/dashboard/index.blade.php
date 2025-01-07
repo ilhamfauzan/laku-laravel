@@ -73,7 +73,7 @@
                         <div class="p-2 bg-violet-500/30 rounded-lg">
                             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 14l9-5-9-5-9 5 9 5z" />
+                                    d="M12 14l9-5-9-5-9 5z" />
                             </svg>
                         </div>
                     </div>
@@ -81,8 +81,135 @@
             </div>
 
             {{-- Charts Section --}}
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                <div class="lg:col-span-2 bg-white shadow-xl sm:rounded-lg border border-gray-300 rounded-lg shadow-lg p-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-0">Weekly Income</h3>
+                    <p class="text-s font-semibold text-gray-600 mb-5">this week</p>
+                    <canvas id="weeklyIncomeChart" class="w-full" height="300"></canvas>
+                </div>
+                <div class="lg:col-span-1 bg-white shadow-xl sm:rounded-lg border border-gray-300 rounded-lg shadow-lg p-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Laundry Status Distribution</h3>
+                    <canvas id="laundryStatusChart" class="w-full" height="300"></canvas>
+                </div>
+            </div>
             
+            {{-- Recent Laundries Section --}}
+            <div class="bg-white shadow-xl sm:rounded-lg border border-gray-300 rounded-lg shadow-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Recent Laundries</h3>
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        @foreach ($laundries as $laundry)
+                        <tr>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">{{ $laundry->laundry_date }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">{{ $laundry->customer_name }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">${{ $laundry->laundry_weight }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $laundry->status === 'finished' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                        {{ $laundry->status }}
+                                    </span>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
             
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Data for Weekly Income Chart
+            const weeklyIncomeCtx = document.getElementById('weeklyIncomeChart').getContext('2d');
+            const weeklyIncomeChart = new Chart(weeklyIncomeCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+                    datasets: [{
+                        label: 'Income',
+                        data: [
+                            parseFloat("{{ $weeklyIncome['monday'] ?? 0 }}"),
+                            parseFloat("{{ $weeklyIncome['tuesday'] ?? 0 }}"),
+                            parseFloat("{{ $weeklyIncome['wednesday'] ?? 0 }}"),
+                            parseFloat("{{ $weeklyIncome['thursday'] ?? 0 }}"),
+                            parseFloat("{{ $weeklyIncome['friday'] ?? 0 }}"),
+                            parseFloat("{{ $weeklyIncome['saturday'] ?? 0 }}"),
+                            parseFloat("{{ $weeklyIncome['sunday'] ?? 0 }}")
+                        ],
+                        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Data for Laundry Status Distribution Chart
+            const laundryStatusCtx = document.getElementById('laundryStatusChart').getContext('2d');
+            const laundryStatusChart = new Chart(laundryStatusCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['Finished', 'Unfinished'],
+                    datasets: [{
+                        label: 'Laundry Status',
+                        data: [
+                            {{ $finishedLaundries->count() }},
+                            {{ $unfinishedLaundries->count() }}
+                        ],
+                        backgroundColor: [
+                            'rgba(54, 162, 235, 0.6)',
+                            'rgba(255, 99, 132, 0.6)'
+                        ],
+                        borderColor: [
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 99, 132, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    return tooltipItem.label + ': ' + tooltipItem.raw;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 </x-app-layout>
