@@ -48,7 +48,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Seed laundry data
-        DB::table('laundry')->insert([
+        DB::table('laundries')->insert([
             [
                 'customer_name' => 'John Doe',
                 'customer_phone_number' => '123456789',
@@ -75,6 +75,7 @@ class DatabaseSeeder extends Seeder
                 'payment_date' => now(),
                 'total_price' => 150.00,
                 'payment_status' => 'completed',
+                'user_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -82,6 +83,7 @@ class DatabaseSeeder extends Seeder
                 'payment_date' => now(),
                 'total_price' => 300.00,
                 'payment_status' => 'pending',
+                'user_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

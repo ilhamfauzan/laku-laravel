@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('customer_phone_number')->nullable();
             $table->decimal('laundry_weight', 8, 2);
             $table->date('laundry_date');
+            $table->enum('status', ['Unfinished', 'Finished'])->default('Unfinished');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
