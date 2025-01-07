@@ -25,21 +25,21 @@ class DatabaseSeeder extends Seeder
         // Seed services data
         DB::table('services')->insert([
             [
-                'service_name' => 'General',
+                'service_name' => 'Standar',
                 'service_price' => 100.00,
                 'user_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'service_name' => 'Work',
+                'service_name' => 'Express',
                 'service_price' => 200.00,
                 'user_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'service_name' => 'Personal',
+                'service_name' => 'Instant',
                 'service_price' => 150.00,
                 'user_id' => 1,
                 'created_at' => now(),

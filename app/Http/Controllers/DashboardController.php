@@ -22,8 +22,10 @@ class DashboardController extends Controller
         $unfinishedLaundries = Laundry::where('status', 'unfinished')->get();
 
         $incomeToday = Transaction::where('payment_status', 'completed')
-            ->whereDate('payment_date', now()->toDateString())
+            ->whereDate('payment_date', now())
             ->sum('total_price');
+
+        // dd($incomeToday);
         
         $weeklyIncome = [
             'monday' => Transaction::where('payment_status', 'completed')

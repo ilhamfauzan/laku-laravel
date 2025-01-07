@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ServiceController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -18,6 +19,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    Route::get('/services', [ServiceController::class, 'index'])->name('services');
+    Route::post('/services', [ServiceController::class, 'store'])->name('services.store');
+    Route::delete('/services/{service}', [ServiceController::class, 'destroy'])->name('services.destroy');
+    Route::put('/services/{service}', [ServiceController::class, 'update'])->name('services.update');
+    Route::get('/services/create', [ServiceController::class, 'create'])->name('services.create');
+    Route::get('/services/{service}/edit', [ServiceController::class, 'edit'])->name('services.edit');
 });
 
 require __DIR__.'/auth.php';
