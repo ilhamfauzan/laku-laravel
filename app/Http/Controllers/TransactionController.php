@@ -29,4 +29,9 @@ class TransactionController extends Controller
 
         return redirect()->route('transactions.index')->with('success', 'Transaction marked as paid.');
     }
+
+    public function printReceipt(Transaction $transaction)
+    {
+        return view('transactions.receipt', compact('transaction'));
+    }
 }

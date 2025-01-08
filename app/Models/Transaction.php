@@ -40,7 +40,7 @@ class Transaction extends Model
 
     public function getFormattedPaymentDateAttribute()
     {
-        return $this->payment_date->format('d F Y');
+        return \Carbon\Carbon::parse($this->payment_date)->format('d F Y');
     }
 
     public function getPaymentStatusLabelAttribute()
@@ -52,5 +52,11 @@ class Transaction extends Model
         ];
 
         return $labels[$this->payment_status];
+    }
+
+    public function generateReceipt()
+    {
+        // Logic to generate receipt
+        return "Receipt for Transaction ID: {$this->id}";
     }
 }

@@ -72,7 +72,7 @@
                                 <td class="py-2 px-4 border-b">{{ $transaction->laundry->service->service_name }}</td>
                                 <td class="py-2 px-4 border-b">{{ $transaction->formatted_total_price }}</td>
                                 <td class="py-2 px-4 border-b">
-                                    <button class="bg-gray-500 hover:bg-gray-400 text-white font-bold py-1 px-2 rounded-md transition-colors duration-200">Print Receipt</button>
+                                    <button onclick="printReceipt({{ $transaction->id }})" class="bg-gray-500 hover:bg-gray-400 text-white font-bold py-1 px-2 rounded-md transition-colors duration-200">Print Receipt</button>
                                 </td>
                             </tr>
                             @endforeach
@@ -120,6 +120,18 @@
 
         function closePaidModal() {
             document.getElementById('paidModal').classList.add('hidden');
+        }
+
+        function printReceipt(id) {
+            const url = `/transactions/${id}/printReceipt`;
+            const printWindow = window.open(url, '_blank');
+            printWindow.focus();
+            printWindow.onload = function() {
+            printWindow.print();
+            printWindow.onafterprint = function() {
+                printWindow.close();
+            };
+            };
         }
     </script>
 </x-app-layout>
