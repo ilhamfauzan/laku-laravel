@@ -16,12 +16,18 @@ class Laundry extends Model
         'laundry_date',
         'user_id',
         'status',
+        'service_id',
         'total_price',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function service()
+    {
+        return $this->belongsTo(Service::class);
     }
 
     public function transactions()

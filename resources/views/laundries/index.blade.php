@@ -10,25 +10,92 @@
                 </button>
             </div>
 
-            <!-- Laundries Grid -->
-            @if ($laundries->isEmpty())
-                <div class="mt-10 ml-4 text-white/70 text-xl">
-                    You have no laundry orders. Click "Add New Laundry" to create one.
+            <!-- Unfinished Laundries Table -->
+            @if ($laundries->where('status', 'Unfinished')->isEmpty())
+                <div class="mt-10 ml-4 text-gray-700 text-xl">
+                    You have no unfinished laundry orders.
                 </div>
             @else
-                <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 m-4">
-                    @foreach ($laundries as $laundry)
-                        <div onclick="window.location='{{ route('laundries.show', $laundry->id) }}'"
-                            class="border border-gray-700 shadow-xl rounded-lg cursor-pointer hover:bg-opacity-80 transition-all duration-200 bg-gray-800">
-                            <div class="p-4 sm:p-6 flex flex-col justify-end h-full w-full aspect-square">
-                                <div class="text-content">
-                                    <h3 class="text-lg sm:text-xl font-semibold">{{ $laundry->customer_name }}</h3>
-                                    <p class="text-sm sm:text-base">Weight: {{ $laundry->laundry_weight }} kg</p>
-                                    <p class="text-sm sm:text-base">Status: {{ $laundry->status }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
+                <div class="mt-6">
+                    <h2 class="text-2xl font-semibold text-gray-900 mb-4">Unfinished Laundries</h2>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-white shadow-md rounded-lg">
+                            <thead>
+                                <tr>
+                                    <th class="py-2 px-4 border-b">Customer Name</th>
+                                    <th class="py-2 px-4 border-b">Phone Number</th>
+                                    <th class="py-2 px-4 border-b">Weight (kg)</th>
+                                    <th class="py-2 px-4 border-b">Date</th>
+                                    <th class="py-2 px-4 border-b">Service</th>
+                                    <th class="py-2 px-4 border-b">Total Cost</th>
+                                    <th class="py-2 px-4 border-b">Status</th>
+                                    <th class="py-2 px-4 border-b">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($laundries->where('status', 'Unfinished') as $laundry)
+                                    <tr class="hover:bg-gray-100 transition-colors duration-200">
+                                        <td class="py-2 px-4 border-b">{{ $laundry->customer_name }}</td>
+                                        <td class="py-2 px-4 border-b">{{ $laundry->customer_phone_number }}</td>
+                                        <td class="py-2 px-4 border-b">{{ $laundry->laundry_weight }} kg</td>
+                                        <td class="py-2 px-4 border-b">{{ $laundry->laundry_date }}</td>
+                                        <td class="py-2 px-4 border-b">{{ $laundry->service->service_name }}</td>
+                                        <td class="py-2 px-4 border-b">Rp{{ number_format($laundry->laundry_weight * $laundry->service->service_price, 0, ',', '.') }}</td>
+                                        <td class="py-2 px-4 border-b">{{ $laundry->status }}</td>
+                                        <td class="py-2 px-4 border-b">
+                                            <button onclick="openModal({{ $laundry }})"
+                                                class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-1 px-2 rounded-md transition-colors duration-200">
+                                                Edit
+                                            </button>
+                                            <button onclick="deleteLaundry({{ $laundry->id }})"
+                                                class="bg-red-500 hover:bg-red-400 text-white font-bold py-1 px-2 rounded-md transition-colors duration-200">
+                                                Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            @endif
+
+            <!-- Finished Laundries Table -->
+            @if ($laundries->where('status', 'Finished')->isEmpty())
+                <div class="mt-10 ml-4 text-gray-700 text-xl">
+                    You have no finished laundry orders.
+                </div>
+            @else
+                <div class="mt-6">
+                    <h2 class="text-2xl font-semibold text-gray-900 mb-4">Finished Laundries</h2>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-white shadow-md rounded-lg">
+                            <thead>
+                                <tr>
+                                    <th class="py-2 px-4 border-b">Customer Name</th>
+                                    <th class="py-2 px-4 border-b">Phone Number</th>
+                                    <th class="py-2 px-4 border-b">Weight (kg)</th>
+                                    <th class="py-2 px-4 border-b">Date</th>
+                                    <th class="py-2 px-4 border-b">Service</th>
+                                    <th class="py-2 px-4 border-b">Total Cost</th>
+                                    <th class="py-2 px-4 border-b">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($laundries->where('status', 'Finished') as $laundry)
+                                    <tr class="hover:bg-gray-100 transition-colors duration-200">
+                                        <td class="py-2 px-4 border-b">{{ $laundry->customer_name }}</td>
+                                        <td class="py-2 px-4 border-b">{{ $laundry->customer_phone_number }}</td>
+                                        <td class="py-2 px-4 border-b">{{ $laundry->laundry_weight }} kg</td>
+                                        <td class="py-2 px-4 border-b">{{ $laundry->laundry_date }}</td>
+                                        <td class="py-2 px-4 border-b">{{ $laundry->service->service_name }}</td>
+                                        <td class="py-2 px-4 border-b">Rp{{ number_format($laundry->laundry_weight * $laundry->service->service_price, 0, ',', '.') }}</td>
+                                        <td class="py-2 px-4 border-b">{{ $laundry->status }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             @endif
 
@@ -37,71 +104,74 @@
             <!-- Modal -->
             <div id="laundryModal"
                 class="fixed inset-0 bg-gray-900 bg-opacity-50 hidden overflow-y-auto h-full w-full z-50 flex items-center justify-center">
-                <div class="relative p-5 border w-full max-w-md shadow-lg rounded-md bg-gray-800 border-gray-700">
+                <div class="relative p-5 border w-full max-w-md shadow-lg rounded-md bg-white border-gray-300">
                     <div class="mt-3">
-                        <form action="{{ route('laundries.store') }}" method="POST" class="mt-4">
+                        <form id="laundryForm" method="POST" class="mt-4">
                             @csrf
+                            <input type="hidden" name="_method" value="POST" id="formMethod">
                             <div class="mb-2">
-                                <label class="block text-gray-200 text-sm font-bold mb-1" for="customer_name">
+                                <label class="block text-gray-700 text-sm font-bold mb-1" for="customer_name">
                                     Customer Name
                                 </label>
                                 <input type="text" name="customer_name" id="customer_name" required placeholder="Enter customer name"
-                                    class="w-full rounded-md bg-gray-700 border-gray-600 text-gray-200 focus:border-[#FCD535] focus:ring focus:ring-[#FCD535]/50">
+                                    class="w-full rounded-md bg-gray-100 border-gray-300 text-gray-700 focus:border-[#FCD535] focus:ring focus:ring-[#FCD535]/50">
                             </div>
                             <div class="mb-2">
-                                <label class="block text-gray-200 text-sm font-bold mb-1" for="customer_phone_number">
+                                <label class="block text-gray-700 text-sm font-bold mb-1" for="customer_phone_number">
                                     Customer Phone Number
                                 </label>
                                 <input type="text" name="customer_phone_number" id="customer_phone_number" placeholder="Enter customer phone number"
-                                    class="w-full rounded-md bg-gray-700 border-gray-600 text-gray-200 focus:border-[#FCD535] focus:ring focus:ring-[#FCD535]/50">
+                                    class="w-full rounded-md bg-gray-100 border-gray-300 text-gray-700 focus:border-[#FCD535] focus:ring focus:ring-[#FCD535]/50">
                             </div>
                             <div class="mb-2">
-                                <label class="block text-gray-200 text-sm font-bold mb-1" for="laundry_weight">
+                                <label class="block text-gray-700 text-sm font-bold mb-1" for="laundry_weight">
                                     Weight (kg)
                                 </label>
                                 <input type="number" step="0.1" name="laundry_weight" id="laundry_weight" required placeholder="Enter laundry weight"
-                                    class="w-full rounded-md bg-gray-700 border-gray-600 text-gray-200 focus:border-[#FCD535] focus:ring focus:ring-[#FCD535]/50">
+                                    class="w-full rounded-md bg-gray-100 border-gray-300 text-gray-700 focus:border-[#FCD535] focus:ring focus:ring-[#FCD535]/50" oninput="updateTotalCost()">
                             </div>
                             <div class="mb-2">
-                                <label class="block text-gray-200 text-sm font-bold mb-1" for="laundry_date">
+                                <label class="block text-gray-700 text-sm font-bold mb-1" for="laundry_date">
                                     Laundry Date
                                 </label>
                                 <input type="date" name="laundry_date" id="laundry_date" required
-                                    class="w-full rounded-md bg-gray-700 border-gray-600 text-gray-200 focus:border-[#FCD535] focus:ring focus:ring-[#FCD535]/50">
+                                    class="w-full rounded-md bg-gray-100 border-gray-300 text-gray-700 focus:border-[#FCD535] focus:ring focus:ring-[#FCD535]/50">
                             </div>
                             <div class="mb-2">
-                                <label class="block text-gray-200 text-sm font-bold mb-1" for="service_id">
+                                <label class="block text-gray-700 text-sm font-bold mb-1" for="service_id">
                                     Service Type
                                 </label>
                                 <select name="service_id" id="service_id" required
-                                    class="w-full rounded-md bg-gray-700 border-gray-600 text-gray-200 focus:border-[#FCD535] focus:ring focus:ring-[#FCD535]/50">
-                                    
-                                    @php
-                                        // dd($services);
-                                    @endphp
+                                    class="w-full rounded-md bg-gray-100 border-gray-300 text-gray-700 focus:border-[#FCD535] focus:ring focus:ring-[#FCD535]/50" onchange="updateTotalCost()">
                                     @foreach($services as $service)
-                                        <option value="{{ $service->id }}">{{ $service->service_name }} (Rp{{ $service->service_price }}/kg)</option>
+                                        <option value="{{ $service->id }}" data-price="{{ $service->service_price }}">{{ $service->service_name }} (Rp{{ $service->service_price }}/kg)</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="mb-2">
-                                <label class="block text-gray-200 text-sm font-bold mb-1" for="status">
+                                <label class="block text-gray-700 text-sm font-bold mb-1" for="status">
                                     Status
                                 </label>
                                 <select name="status" id="status" required
-                                    class="w-full rounded-md bg-gray-700 border-gray-600 text-gray-200 focus:border-[#FCD535] focus:ring focus:ring-[#FCD535]/50">
+                                    class="w-full rounded-md bg-gray-100 border-gray-300 text-gray-700 focus:border-[#FCD535] focus:ring focus:ring-[#FCD535]/50">
                                     <option value="Unfinished">Unfinished</option>
                                     <option value="Finished">Finished</option>
                                 </select>
                             </div>
+                            <div class="mb-4">
+                                <label class="block text-gray-700 text-sm font-bold mb-1">
+                                    Total Cost
+                                </label>
+                                <p id="totalCost" class="text-lg font-semibold text-gray-900">Rp0</p>
+                            </div>
                             <div class="flex justify-end">
                                 <button type="button" onclick="closeModal()"
-                                    class="mr-2 px-4 py-2 bg-gray-700 text-gray-200 rounded-md hover:bg-gray-600">
+                                    class="mr-2 px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-200">
                                     Cancel
                                 </button>
                                 <button type="submit"
                                     class="px-4 py-2 bg-[#FCD535] text-gray-900 rounded-md hover:bg-[#FCD535]/80">
-                                    Add Laundry
+                                    Save Laundry
                                 </button>
                             </div>
                         </form>
@@ -112,12 +182,62 @@
     </div>
 
     <script>
-        function openModal() {
-            document.getElementById('laundryModal').classList.remove('hidden');
+        function openModal(laundry = null) {
+            const modal = document.getElementById('laundryModal');
+            const form = document.getElementById('laundryForm');
+            const methodInput = document.getElementById('formMethod');
+
+            if (laundry) {
+                form.action = `/laundries/${laundry.id}`;
+                methodInput.value = 'PUT';
+                document.getElementById('customer_name').value = laundry.customer_name;
+                document.getElementById('customer_phone_number').value = laundry.customer_phone_number;
+                document.getElementById('laundry_weight').value = laundry.laundry_weight;
+                document.getElementById('laundry_date').value = laundry.laundry_date;
+                document.getElementById('service_id').value = laundry.service_id;
+                document.getElementById('status').value = laundry.status;
+                updateTotalCost();
+            } else {
+                form.action = '{{ route('laundries.store') }}';
+                methodInput.value = 'POST';
+                form.reset();
+                document.getElementById('totalCost').innerText = 'Rp0';
+            }
+
+            modal.classList.remove('hidden');
         }
 
         function closeModal() {
             document.getElementById('laundryModal').classList.add('hidden');
+        }
+
+        function updateTotalCost() {
+            const weight = parseFloat(document.getElementById('laundry_weight').value) || 0;
+            const serviceSelect = document.getElementById('service_id');
+            const servicePrice = parseFloat(serviceSelect.options[serviceSelect.selectedIndex].getAttribute('data-price')) || 0;
+            const totalCost = weight * servicePrice;
+            document.getElementById('totalCost').innerText = 'Rp' + totalCost.toLocaleString('id-ID');
+        }
+
+        function deleteLaundry(id) {
+            if (confirm('Are you sure you want to delete this laundry?')) {
+                fetch(`/laundries/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json'
+                    }
+                }).then(response => {
+                    if (response.ok) {
+                        location.reload();
+                    } else {
+                        alert('Failed to delete laundry.');
+                    }
+                }).catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to delete laundry.');
+                });
+            }
         }
     </script>
 </x-app-layout>

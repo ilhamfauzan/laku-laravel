@@ -58,7 +58,6 @@ class LaundryController extends Controller
 
     public function update(Request $request, Laundry $laundry)
     {
-        $this->authorize('update', $laundry);
 
         $request->validate([
             'customer_name' => 'required|string|max:255',
