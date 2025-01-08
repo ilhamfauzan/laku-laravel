@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\LaundryController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -26,6 +27,8 @@ Route::middleware('auth')->group(function () {
     Route::put('/services/{service}', [ServiceController::class, 'update'])->name('services.update');
     Route::get('/services/create', [ServiceController::class, 'create'])->name('services.create');
     Route::get('/services/{service}/edit', [ServiceController::class, 'edit'])->name('services.edit');
+
+    Route::resource('/laundries', LaundryController::class);
 });
 
 require __DIR__.'/auth.php';

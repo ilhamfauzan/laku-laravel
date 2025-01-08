@@ -16,6 +16,7 @@ class Laundry extends Model
         'laundry_date',
         'user_id',
         'status',
+        'total_price',
     ];
 
     public function user()

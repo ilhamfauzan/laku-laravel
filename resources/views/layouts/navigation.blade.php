@@ -34,7 +34,7 @@
                         <span>{{ __('Dashboard') }}</span>
                     </a>
 
-                    <a href="#"
+                    <a href="{{ route('laundries.index') }}"
                         class="flex items-center w-full px-4 py-2 text-gray-800 hover:text-white hover:bg-blue-400 rounded-lg {{ request()->routeIs('transactions.index') ? 'bg-blue-500 text-white' : '' }}">
                         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path  stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -59,6 +59,15 @@
                                 d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A2 2 0 013 12V7a4 4 0 014-4z" />
                         </svg>
                         <span>{{ __('Services') }}</span>
+                    </a>
+
+                    <a href="#"
+                        class="flex items-center w-full px-4 py-2 text-gray-800 hover:text-white hover:bg-blue-400 rounded-lg {{ request()->routeIs('users.*') ? 'bg-blue-500 text-white' : '' }}">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M5.121 17.804A4.992 4.992 0 0112 15a4.992 4.992 0 016.879 2.804M15 11a4 4 0 10-8 0 4 4 0 008 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                        <span>{{ __('User Management') }}</span>
                     </a>
 
                     <a href="{{ route('profile.edit') }}"
