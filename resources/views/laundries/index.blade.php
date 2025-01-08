@@ -4,7 +4,7 @@
             <!-- Add Laundry Button -->
             <div class="mb-4 flex ml-4">
                 <button type="button"
-                    class="bg-[#FCD535] hover:bg-[#FCD535]/80 text-gray-900 font-bold py-2 px-4 rounded-md transition-colors duration-200"
+                    class="bg-blue-500 hover:bg-blue-500/80 text-white font-bold py-2 px-4 rounded-md transition-colors duration-200"
                     onclick="openModal()">
                     Add New Laundry
                 </button>
@@ -17,7 +17,8 @@
                 </div>
             @else
                 <div class="mt-6">
-                    <h2 class="text-2xl font-semibold text-gray-900 mb-4">Unfinished Laundries</h2>
+                    <h2 class="text-2xl font-semibold text-gray-900">Unfinished Laundries</h2>
+                    <p class="text-sm text-gray-500 mb-4">The following laundry orders are still in progress and have not been completed yet.</p>
                     <div class="overflow-x-auto">
                         <table class="min-w-full bg-white shadow-md rounded-lg">
                             <thead>
@@ -71,7 +72,8 @@
                 </div>
             @else
                 <div class="mt-6">
-                    <h2 class="text-2xl font-semibold text-gray-900 mb-4">Finished Laundries</h2>
+                    <h2 class="text-2xl font-semibold text-gray-900">Finished Laundries</h2>
+                    <p class="text-sm text-gray-500 mb-4">The following laundry orders are finished but have not been picked up yet.</p>
                     <div class="overflow-x-auto">
                         <table class="min-w-full bg-white shadow-md rounded-lg">
                             <thead>
@@ -166,7 +168,7 @@
                                     Cancel
                                 </button>
                                 <button type="submit"
-                                    class="px-4 py-2 bg-[#FCD535] text-gray-900 rounded-md hover:bg-[#FCD535]/80">
+                                    class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-500/80">
                                     Save Laundry
                                 </button>
                             </div>
@@ -211,7 +213,7 @@
             <div class="mt-3 text-center">
                 <h3 class="text-lg leading-6 font-medium text-gray-900">Finish Laundry</h3>
                 <div class="mt-2">
-                    <p class="text-sm text-gray-500">Are you sure you want to mark this laundry as finished? <br> You can't undo this.</p>
+                    <p class="text-sm text-gray-500">Are you sure you want to mark this laundry as finished? This action cannot be undone.</p>
                 </div>
                 <div class="mt-4 flex justify-center">
                     <button type="button" onclick="closeFinishModal()"

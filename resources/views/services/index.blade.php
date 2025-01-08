@@ -6,7 +6,7 @@
                     <div class="flex justify-between items-center mb-6">
                         <h2 class="text-2xl font-semibold text-gray-800">Services</h2>
                         <button onclick="openModal()"
-                            class="px-4 py-2 bg-yellow-500 text-gray-900 rounded-md hover:bg-yellow-400 transition-colors duration-200">
+                            class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-500/80 transition-colors duration-200">
                             Add Service
                         </button>
                     </div>
@@ -35,14 +35,14 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
                                             <button
                                                 onclick="openEditModal({{ $service->id }}, '{{ $service->service_name }}', {{ $service->service_price }})"
-                                                class="text-yellow-500 hover:text-yellow-400">
+                                                class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-500/80">
                                                 Edit
                                             </button>
                                             <form action="{{ route('services.destroy', $service) }}"
                                                 method="POST" class="inline-block">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="text-red-500 hover:text-red-400"
+                                                <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-400"
                                                     onclick="return confirm('Are you sure?')">
                                                     Delete
                                                 </button>
@@ -77,8 +77,8 @@
     </div>
 
         <!-- Modal -->
-        <div id="serviceModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 hidden overflow-y-auto h-full w-full z-50">
-            <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white border-gray-300">
+        <div id="serviceModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 hidden overflow-y-auto h-full w-full z-50 flex items-center justify-center">
+            <div class="relative mx-auto p-5 border w-96 shadow-lg rounded-md bg-white border-gray-300">
             <div class="mt-3">
                 <h3 class="text-lg font-medium text-gray-800" id="modalTitle">Add Service</h3>
                 <form id="serviceForm" method="POST" action="{{ route('services.store') }}" class="mt-4">
@@ -104,7 +104,7 @@
                     Cancel
                     </button>
                     <button type="submit"
-                    class="px-4 py-2 bg-yellow-500 text-gray-900 rounded-md hover:bg-yellow-400">
+                    class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-500/80">
                     Save
                     </button>
                 </div>

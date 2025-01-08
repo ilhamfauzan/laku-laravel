@@ -3,24 +3,25 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-4 lg:px-8">
             <div class="mt-6">
-                <h2 class="text-2xl font-semibold text-gray-900 mb-4">Finished Laundry</h2>
+                <h2 class="text-2xl font-semibold text-gray-900">Finished Laundry</h2>
+                <p class="text-sm text-gray-500 mb-4">The following laundry orders are finished but have not been picked up yet.</p>
                 <div class="overflow-x-auto">
-                    @foreach($laundries as $laundry)
-                        @if(!$transactions->contains('laundry_id', $laundry->id))
-                        <table class="min-w-full bg-white shadow-md rounded-lg">
-                            <thead>
-                                <tr>
-                                    <th class="py-2 px-4 border-b">ID</th>
-                                    <th class="py-2 px-4 border-b">Customer Name</th>
-                                    <th class="py-2 px-4 border-b">Phone Number</th>
-                                    <th class="py-2 px-4 border-b">Weight (kg)</th>
-                                    <th class="py-2 px-4 border-b">Date</th>
-                                    <th class="py-2 px-4 border-b">Service</th>
-                                    <th class="py-2 px-4 border-b">Total Cost</th>
-                                    <th class="py-2 px-4 border-b">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                    <table class="min-w-full bg-white shadow-md rounded-lg">
+                        <thead>
+                            <tr>
+                                <th class="py-2 px-4 border-b">ID</th>
+                                <th class="py-2 px-4 border-b">Customer Name</th>
+                                <th class="py-2 px-4 border-b">Phone Number</th>
+                                <th class="py-2 px-4 border-b">Weight (kg)</th>
+                                <th class="py-2 px-4 border-b">Date</th>
+                                <th class="py-2 px-4 border-b">Service</th>
+                                <th class="py-2 px-4 border-b">Total Cost</th>
+                                <th class="py-2 px-4 border-b">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                @foreach($laundries as $laundry)
+                                    @if(!$transactions->contains('laundry_id', $laundry->id))
                                     @if($laundry->status == 'Finished')
                                         <tr class="hover:bg-gray-100 transition-colors duration-200">
                                             <td class="py-2 px-4 border-b">{{ $laundry->id }}</td>
@@ -37,16 +38,17 @@
                                                 </button>
                                             </td>
                                         </tr>
+                                    </tbody>
                                     @endif
-                                </tbody>
-                            </table>
-                            @endif
-                    @endforeach
+                                @endif
+                            @endforeach
+                        </table>
                 </div>
             </div>
 
             <div class="mt-6">
-                <h2 class="text-2xl font-semibold text-gray-900 mb-4">Finished Transactions</h2>
+                <h2 class="text-2xl font-semibold text-gray-900">Finished Transactions</h2>
+                <p class="text-sm text-gray-500 mb-4">The following laundry orders are finished and has been picked up.</p>
                 <div class="overflow-x-auto">
                     <table class="min-w-full bg-white shadow-md rounded-lg">
                         <thead>
@@ -90,7 +92,7 @@
             <div class="mt-3 text-center">
                 <h3 class="text-lg leading-6 font-medium text-gray-900">Confirm Payment</h3>
                 <div class="mt-2">
-                    <p class="text-sm text-gray-500">Are you sure you want to mark this transaction as paid?</p>
+                    <p class="text-sm text-gray-500">Are you sure you want to mark this transaction as paid? This action cannot be undone.</p>
                 </div>
                 <div class="mt-4 flex justify-center">
                     <button type="button" onclick="closePaidModal()"
