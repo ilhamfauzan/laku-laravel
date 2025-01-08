@@ -30,14 +30,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/transactions/{transaction}/paid', [TransactionController::class, 'markAsPaid'])->name('transactions.paid');
     Route::post('/transactions/{laundry}/markAsPaid', [TransactionController::class, 'markAsPaid'])->name('transactions.markAsPaid');
     Route::get('/transactions/{transaction}/printReceipt', [TransactionController::class, 'printReceipt'])->name('transactions.printReceipt');
-
-    // Route::get('/services', [ServiceController::class, 'index'])->name('services');
-    // Route::post('/services', [ServiceController::class, 'store'])->name('services.store');
-    // Route::delete('/services/{service}', [ServiceController::class, 'destroy'])->name('services.destroy');
-    // Route::put('/services/{service}', [ServiceController::class, 'update'])->name('services.update');
-    // Route::get('/services/create', [ServiceController::class, 'create'])->name('services.create');
-    // Route::get('/services/{service}/edit', [ServiceController::class, 'edit'])->name('services.edit');
-    
 });
 
 Route::middleware(['auth', 'owner'])->group(function () {
