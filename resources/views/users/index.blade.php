@@ -131,20 +131,22 @@
                                     class="mr-2 px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-200">
                                     Cancel
                                 </button>
-                                <form id="deleteUserForm" method="POST" class="hidden">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit"
-                                        class="mr-2 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-400">
-                                        Delete
-                                    </button>
-                                </form>
                                 <button type="submit"
                                     class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-500/80">
                                     Save User
                                 </button>
                             </div>
                         </form>
+                        <div class="flex justify-end mt-2">
+                            <form id="deleteUserForm" method="POST" class="hidden">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"
+                                    class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-400">
+                                    Delete
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
