@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\LaundryController;
+use App\Http\Controllers\TransactionController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -30,6 +31,10 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('/laundries', LaundryController::class);
     Route::put('/laundries/{laundry}/finish', [LaundryController::class, 'finish'])->name('laundries.finish');
+
+    Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
+    Route::post('/transactions/{transaction}/paid', [TransactionController::class, 'markAsPaid'])->name('transactions.paid');
+    Route::post('/transactions/{laundry}/markAsPaid', [TransactionController::class, 'markAsPaid'])->name('transactions.markAsPaid');
 });
 
 require __DIR__.'/auth.php';

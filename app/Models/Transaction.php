@@ -12,6 +12,7 @@ class Transaction extends Model
     protected $fillable = [
         'user_id',
         'service_id',
+        'laundry_id',
         'total_price',
         'payment_status',
         'payment_date',
@@ -25,6 +26,11 @@ class Transaction extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function laundry()
+    {
+        return $this->belongsTo(Laundry::class);
     }
 
     public function getFormattedTotalPriceAttribute()

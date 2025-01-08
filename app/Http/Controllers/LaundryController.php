@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Laundry;
 use App\Models\Service;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -15,8 +16,9 @@ class LaundryController extends Controller
     {
         $laundries = Laundry::where('user_id', Auth::user()->id)->get();
         $services = Service::all();
+        $transactions = Transaction::all();
         // dd($services);
-        return view('laundries.index', compact('laundries', 'services'));
+        return view('laundries.index', compact('laundries', 'services', 'transactions'));
     }
 
     public function create()

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->decimal('total_price', 15, 2);
             $table->enum('payment_status', ['pending', 'completed', 'failed']);
             $table->foreignId('user_id')->constrained();
+            $table->foreignId('laundry_id')->constrained();
             $table->timestamps();
         });
     }

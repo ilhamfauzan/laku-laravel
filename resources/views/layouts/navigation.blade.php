@@ -35,7 +35,7 @@
                     </a>
 
                     <a href="{{ route('laundries.index') }}"
-                        class="flex items-center w-full px-4 py-2 text-gray-800 hover:text-white hover:bg-blue-400 rounded-lg {{ request()->routeIs('transactions.index') ? 'bg-blue-500 text-white' : '' }}">
+                        class="flex items-center w-full px-4 py-2 text-gray-800 hover:text-white hover:bg-blue-400 rounded-lg {{ request()->routeIs('laundries.index') ? 'bg-blue-500 text-white' : '' }}">
                         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path  stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M3 7L6 4H9C9 4.39397 9.0776 4.78407 9.22836 5.14805C9.37913 5.51203 9.6001 5.84274 9.87868 6.12132C10.1573 6.3999 10.488 6.62087 10.8519 6.77164C11.2159 6.9224 11.606 7 12 7C12.394 7 12.7841 6.9224 13.1481 6.77164C13.512 6.62087 13.8427 6.3999 14.1213 6.12132C14.3999 5.84274 14.6209 5.51203 14.7716 5.14805C14.9224 4.78407 15 4.39397 15 4H18L21 7L20.5785 11.2152C20.542 11.5801 20.1382 11.7829 19.8237 11.5942L18 10.5V18C18 19.1046 17.1046 20 16 20H8C6.89543 20 6 19.1046 6 18V10.5L4.17629 11.5942C3.86184 11.7829 3.45801 11.5801 3.42152 11.2152L3 7Z">
@@ -43,8 +43,8 @@
                         <span>{{ __('Laundries') }}</span>
                     </a>
 
-                    <a href="#"
-                        class="flex items-center w-full px-4 py-2 text-gray-800 hover:text-white hover:bg-blue-400 rounded-lg {{ request()->routeIs('wallets.*') ? 'bg-blue-500 text-white' : '' }}">
+                    <a href="{{ route('transactions.index') }}"
+                        class="flex items-center w-full px-4 py-2 text-gray-800 hover:text-white hover:bg-blue-400 rounded-lg {{ request()->routeIs('transactions.index') ? 'bg-blue-500 text-white' : '' }}">
                         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />

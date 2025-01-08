@@ -87,15 +87,17 @@
                             </thead>
                             <tbody>
                                 @foreach ($laundries->where('status', 'Finished') as $laundry)
-                                    <tr class="hover:bg-gray-100 transition-colors duration-200">
-                                        <td class="py-2 px-4 border-b">{{ $laundry->customer_name }}</td>
-                                        <td class="py-2 px-4 border-b">{{ $laundry->customer_phone_number }}</td>
-                                        <td class="py-2 px-4 border-b">{{ $laundry->laundry_weight }} kg</td>
-                                        <td class="py-2 px-4 border-b">{{ $laundry->laundry_date }}</td>
-                                        <td class="py-2 px-4 border-b">{{ $laundry->service->service_name }}</td>
-                                        <td class="py-2 px-4 border-b">Rp{{ number_format($laundry->laundry_weight * $laundry->service->service_price, 0, ',', '.') }}</td>
-                                        <td class="py-2 px-4 border-b">{{ $laundry->status }}</td>
-                                    </tr>
+                                    @if (!$transactions->contains('laundry_id', $laundry->id))
+                                        <tr class="hover:bg-gray-100 transition-colors duration-200">
+                                            <td class="py-2 px-4 border-b">{{ $laundry->customer_name }}</td>
+                                            <td class="py-2 px-4 border-b">{{ $laundry->customer_phone_number }}</td>
+                                            <td class="py-2 px-4 border-b">{{ $laundry->laundry_weight }} kg</td>
+                                            <td class="py-2 px-4 border-b">{{ $laundry->laundry_date }}</td>
+                                            <td class="py-2 px-4 border-b">{{ $laundry->service->service_name }}</td>
+                                            <td class="py-2 px-4 border-b">Rp{{ number_format($laundry->laundry_weight * $laundry->service->service_price, 0, ',', '.') }}</td>
+                                            <td class="py-2 px-4 border-b">{{ $laundry->status }}</td>
+                                        </tr>
+                                    @endif
                                 @endforeach
                             </tbody>
                         </table>
@@ -234,6 +236,7 @@
             const modal = document.getElementById('laundryModal');
             const form = document.getElementById('laundryForm');
             const methodInput = document.getElementById('formMethod');
+            const laundryDateInput = document.getElementById('laundry_date');
 
             if (laundry) {
                 form.action = `/laundries/${laundry.id}`;
@@ -241,7 +244,7 @@
                 document.getElementById('customer_name').value = laundry.customer_name;
                 document.getElementById('customer_phone_number').value = laundry.customer_phone_number;
                 document.getElementById('laundry_weight').value = laundry.laundry_weight;
-                document.getElementById('laundry_date').value = laundry.laundry_date;
+                laundryDateInput.value = laundry.laundry_date;
                 document.getElementById('service_id').value = laundry.service_id;
                 updateTotalCost();
             } else {
@@ -249,6 +252,7 @@
                 methodInput.value = 'POST';
                 form.reset();
                 document.getElementById('totalCost').innerText = 'Rp0';
+                laundryDateInput.value = new Date().toISOString().split('T')[0]; // Set default date to today
             }
 
             modal.classList.remove('hidden');
