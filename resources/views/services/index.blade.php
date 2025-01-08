@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="flex items-center justify-center min-h-screen py-12 relative m-5">
-        <div class="max-w-2xl w-full sm:px-6 lg:px-8">
+        <div class="max-w-2xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow-xl sm:rounded-lg border border-gray-300 mx-auto">
                 <div class="p-6">
                     <div class="flex justify-between items-center mb-6">

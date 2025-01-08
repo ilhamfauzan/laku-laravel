@@ -52,6 +52,7 @@
                         <span>{{ __('Transaction') }}</span>
                     </a>
 
+                    @if(auth()->user()->role === 'owner')
                     <a href="{{ route('services') }}"
                         class="flex items-center w-full px-4 py-2 text-gray-800 hover:text-white hover:bg-blue-400 rounded-lg {{ request()->routeIs('categories.*') ? 'bg-blue-500 text-white' : '' }}">
                         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -61,14 +62,15 @@
                         <span>{{ __('Services') }}</span>
                     </a>
 
-                    <a href="#"
-                        class="flex items-center w-full px-4 py-2 text-gray-800 hover:text-white hover:bg-blue-400 rounded-lg {{ request()->routeIs('users.*') ? 'bg-blue-500 text-white' : '' }}">
+                    <a href="{{ route('users.index') }}"
+                        class="flex items-center w-full px-4 py-2 text-gray-800 hover:text-white hover:bg-blue-400 rounded-lg {{ request()->routeIs('users.index') ? 'bg-blue-500 text-white' : '' }}">
                         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M5.121 17.804A4.992 4.992 0 0112 15a4.992 4.992 0 016.879 2.804M15 11a4 4 0 10-8 0 4 4 0 008 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                         </svg>
                         <span>{{ __('User Management') }}</span>
                     </a>
+                    @endif
 
                     <a href="{{ route('profile.edit') }}"
                         class="flex items-center w-full px-4 py-2 text-gray-800 hover:text-white hover:bg-blue-400 rounded-lg {{ request()->routeIs('profile.edit') ? 'bg-blue-500 text-white' : '' }}">

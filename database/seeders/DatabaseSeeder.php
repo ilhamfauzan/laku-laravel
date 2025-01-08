@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'John Doe',
             'email' => 'john@example.com',
             'password' => Hash::make('password'),
+            'role' => 'owner',
         ]);
 
         // Seed services data

@@ -14,7 +14,8 @@ class LaundryController extends Controller
     use AuthorizesRequests;
     public function index()
     {
-        $laundries = Laundry::where('user_id', Auth::user()->id)->get();
+        // $laundries = Laundry::where('user_id', Auth::user()->id)->get();
+        $laundries = Laundry::all();
         $services = Service::all();
         $transactions = Transaction::all();
         // dd($services);
