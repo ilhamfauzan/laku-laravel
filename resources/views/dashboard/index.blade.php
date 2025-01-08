@@ -6,6 +6,23 @@
                 <p class="text-gray-400">Monitor your laundry services and performance</p>
             </div>
 
+            @if (session('success'))
+            <div class="absolute top-0 left-1/2 transform -translate-x-1/2 mt-4 bg-green-500 text-white p-4 rounded-lg shadow-lg notification opacity-0 transition-opacity duration-500">
+                {{ session('success') }}
+            </div>
+            @endif
+
+            @if (session('error'))
+                <div class="absolute top-0 left-1/2 transform -translate-x-1/2 mt-4 bg-red-500 text-white p-4 rounded-lg shadow-lg notification opacity-0 transition-opacity duration-500">
+                    {{ session('error') }}
+                </div>
+            @endif
+
+            @if (session('delete'))
+                <div class="absolute top-0 left-1/2 transform -translate-x-1/2 mt-4 bg-red-500 text-white p-4 rounded-lg shadow-lg notification opacity-0 transition-opacity duration-500">
+                    {{ session('delete') }}
+                </div>
+            @endif
 
             {{-- Summary Card v2 --}}
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-6">
@@ -106,6 +123,21 @@
     </div>
 
     <script>
+        // Show notifications with animation
+        document.querySelectorAll('.notification').forEach(notification => {
+                notification.classList.add('opacity-100');
+            });
+
+            // Hide notifications after 3 seconds
+            setTimeout(() => {
+                document.querySelectorAll('.notification').forEach(notification => {
+                    notification.classList.remove('opacity-100');
+                    setTimeout(() => {
+                        notification.remove();
+                    }, 500);
+                });
+            }, 3000);
+
         document.addEventListener('DOMContentLoaded', function() {
             // Data for Weekly Income Chart
             const weeklyIncomeCtx = document.getElementById('weeklyIncomeChart').getContext('2d');

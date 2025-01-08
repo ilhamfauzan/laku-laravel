@@ -1,6 +1,25 @@
 <x-app-layout>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-4 lg:px-8">
+            {{-- Notifications --}}
+            @if (session('success'))
+            <div class="absolute top-0 left-1/2 transform -translate-x-1/2 mt-4 bg-green-500 text-white p-4 rounded-lg shadow-lg notification opacity-0 transition-opacity duration-500">
+                {{ session('success') }}
+            </div>
+            @endif
+
+            @if (session('error'))
+                <div class="absolute top-0 left-1/2 transform -translate-x-1/2 mt-4 bg-red-500 text-white p-4 rounded-lg shadow-lg notification opacity-0 transition-opacity duration-500">
+                    {{ session('error') }}
+                </div>
+            @endif
+
+            @if (session('delete'))
+                <div class="absolute top-0 left-1/2 transform -translate-x-1/2 mt-4 bg-red-500 text-white p-4 rounded-lg shadow-lg notification opacity-0 transition-opacity duration-500">
+                    {{ session('delete') }}
+                </div>
+            @endif
+
             <!-- Add User Button -->
             <div class="mb-4 flex ml-4">
                 <button type="button"
@@ -112,10 +131,14 @@
                                     class="mr-2 px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-200">
                                     Cancel
                                 </button>
-                                <button onclick="openDeleteUserModal({{ $user->id }})"
-                                    class="mr-2 px-4 py-2 bg-red-500 hover:bg-red-400 text-white rounded-md hover:bg-gray-200">
-                                    Delete
-                                </button>
+                                <form id="deleteUserForm" method="POST" class="hidden">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                        class="mr-2 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-400">
+                                        Delete
+                                    </button>
+                                </form>
                                 <button type="submit"
                                     class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-500/80">
                                     Save User
@@ -156,10 +179,26 @@
     </div>
 
     <script>
+        // Show notifications with animation
+        document.querySelectorAll('.notification').forEach(notification => {
+                notification.classList.add('opacity-100');
+            });
+
+            // Hide notifications after 3 seconds
+            setTimeout(() => {
+                document.querySelectorAll('.notification').forEach(notification => {
+                    notification.classList.remove('opacity-100');
+                    setTimeout(() => {
+                        notification.remove();
+                    }, 500);
+                });
+            }, 3000);
+        
         function openUserModal(user = null) {
             const modal = document.getElementById('userModal');
             const form = document.getElementById('userForm');
             const methodInput = document.getElementById('userFormMethod');
+            const deleteForm = document.getElementById('deleteUserForm');
 
             if (user) {
                 form.action = `/users/${user.id}`;
@@ -168,10 +207,12 @@
                 document.getElementById('email').value = user.email;
                 document.getElementById('role').value = user.role;
                 document.getElementById('password').value = ''; // Clear password field
+                deleteForm.classList.remove('hidden'); // Show delete button
             } else {
                 form.action = '{{ route('users.store') }}';
                 methodInput.value = 'POST';
                 form.reset();
+                deleteForm.classList.add('hidden'); // Hide delete button
             }
 
             modal.classList.remove('hidden');

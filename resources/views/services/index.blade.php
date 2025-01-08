@@ -1,6 +1,25 @@
 <x-app-layout>
     <div class="flex items-center justify-center min-h-screen py-12 relative m-5">
         <div class="max-w-2xl mx-auto sm:px-6 lg:px-8">
+            {{-- Notifications --}}
+            @if (session('success'))
+            <div class="absolute top-0 left-1/2 transform -translate-x-1/2 mt-4 bg-green-500 text-white p-4 rounded-lg shadow-lg notification opacity-0 transition-opacity duration-500">
+                {{ session('success') }}
+            </div>
+            @endif
+
+            @if (session('error'))
+                <div class="absolute top-0 left-1/2 transform -translate-x-1/2 mt-4 bg-red-500 text-white p-4 rounded-lg shadow-lg notification opacity-0 transition-opacity duration-500">
+                    {{ session('error') }}
+                </div>
+            @endif
+
+            @if (session('delete'))
+                <div class="absolute top-0 left-1/2 transform -translate-x-1/2 mt-4 bg-red-500 text-white p-4 rounded-lg shadow-lg notification opacity-0 transition-opacity duration-500">
+                    {{ session('delete') }}
+                </div>
+            @endif
+
             <div class="bg-white shadow-xl sm:rounded-lg border border-gray-300 mx-auto">
                 <div class="p-6">
                     <div class="flex justify-between items-center mb-6">
@@ -38,15 +57,10 @@
                                                 class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-500/80">
                                                 Edit
                                             </button>
-                                            <form action="{{ route('services.destroy', $service) }}"
-                                                method="POST" class="inline-block">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-400"
-                                                    onclick="return confirm('Are you sure?')">
-                                                    Delete
-                                                </button>
-                                            </form>
+                                            <button onclick="openDeleteModal({{ $service->id }})"
+                                                class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-400">
+                                                Delete
+                                            </button>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -113,7 +127,49 @@
             </div>
         </div>
 
+        <!-- Delete Confirmation Modal -->
+        <div id="deleteModal"
+            class="fixed inset-0 bg-gray-900 bg-opacity-50 hidden overflow-y-auto h-full w-full z-50 flex items-center justify-center">
+            <div class="relative p-5 border w-full max-w-md shadow-lg rounded-md bg-white border-gray-300">
+                <div class="mt-3 text-center">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900">Delete Service</h3>
+                    <div class="mt-2">
+                        <p class="text-sm text-gray-500">Are you sure you want to delete this service? This action cannot be undone.</p>
+                    </div>
+                    <div class="mt-4 flex justify-center">
+                        <button type="button" onclick="closeDeleteModal()"
+                            class="mr-2 px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-200">
+                            Cancel
+                        </button>
+                        <form id="deleteForm" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit"
+                                class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-400">
+                                Delete
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <script>
+            // Show notifications with animation
+            document.querySelectorAll('.notification').forEach(notification => {
+                notification.classList.add('opacity-100');
+            });
+
+            // Hide notifications after 3 seconds
+            setTimeout(() => {
+                document.querySelectorAll('.notification').forEach(notification => {
+                    notification.classList.remove('opacity-100');
+                    setTimeout(() => {
+                        notification.remove();
+                    }, 500);
+                });
+            }, 3000);
+
             function openModal() {
                 document.getElementById('modalTitle').textContent = 'Add Service';
                 document.getElementById('serviceForm').action = "{{ route('services.store') }}";
@@ -136,6 +192,17 @@
     
             function closeModal() {
                 document.getElementById('serviceModal').classList.add('hidden');
+            }
+
+            function openDeleteModal(id) {
+                const deleteModal = document.getElementById('deleteModal');
+                const deleteForm = document.getElementById('deleteForm');
+                deleteForm.action = `/services/${id}`;
+                deleteModal.classList.remove('hidden');
+            }
+
+            function closeDeleteModal() {
+                document.getElementById('deleteModal').classList.add('hidden');
             }
     
             // Show notifications with animation

@@ -1,6 +1,26 @@
 <x-app-layout>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-4 lg:px-8">
+
+            {{-- Notifications --}}
+            @if (session('success'))
+                <div class="absolute top-0 left-1/2 transform -translate-x-1/2 mt-4 bg-green-500 text-white p-4 rounded-lg shadow-lg notification opacity-0 transition-opacity duration-500">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="absolute top-0 left-1/2 transform -translate-x-1/2 mt-4 bg-red-500 text-white p-4 rounded-lg shadow-lg notification opacity-0 transition-opacity duration-500">
+                    {{ session('error') }}
+                </div>
+            @endif
+
+            @if (session('delete'))
+                <div class="absolute top-0 left-1/2 transform -translate-x-1/2 mt-4 bg-red-500 text-white p-4 rounded-lg shadow-lg notification opacity-0 transition-opacity duration-500">
+                    {{ session('delete') }}
+                </div>
+            @endif
+
             <div class="mt-6">
                 <h2 class="text-2xl font-semibold text-gray-900">Finished Laundry</h2>
                 <p class="text-sm text-gray-500 mb-4">The following laundry orders are finished but have not been picked up yet.</p>
@@ -112,6 +132,21 @@
     </div>
 
     <script>
+        // Show notifications with animation
+        document.querySelectorAll('.notification').forEach(notification => {
+                notification.classList.add('opacity-100');
+            });
+
+            // Hide notifications after 3 seconds
+            setTimeout(() => {
+                document.querySelectorAll('.notification').forEach(notification => {
+                    notification.classList.remove('opacity-100');
+                    setTimeout(() => {
+                        notification.remove();
+                    }, 500);
+                });
+            }, 3000);
+
         function openPaidModal(id) {
             const paidModal = document.getElementById('paidModal');
             const paidForm = document.getElementById('paidForm');

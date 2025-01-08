@@ -68,6 +68,6 @@ class ServiceController extends Controller
     {
         $service->delete();
 
-        return redirect()->route('services')->with('success', 'Service deleted successfully.');
+        return redirect()->route('services')->with('delete', 'Service deleted successfully.');
     }
 }

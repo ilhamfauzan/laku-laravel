@@ -80,7 +80,7 @@ class LaundryController extends Controller
         // $this->authorize('delete', $laundry);
         $laundry->delete();
 
-        return redirect()->route('laundries.index')->with('success', 'Laundry deleted successfully.');
+        return redirect()->route('laundries.index')->with('delete', 'Laundry deleted successfully.');
     }
 
     public function finish(Laundry $laundry)
