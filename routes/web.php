@@ -29,6 +29,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/services/{service}/edit', [ServiceController::class, 'edit'])->name('services.edit');
 
     Route::resource('/laundries', LaundryController::class);
+    Route::put('/laundries/{laundry}/finish', [LaundryController::class, 'finish'])->name('laundries.finish');
 });
 
 require __DIR__.'/auth.php';
