@@ -28,13 +28,12 @@
                     <table class="min-w-full bg-white shadow-md rounded-lg">
                         <thead>
                             <tr>
-                                <th class="py-2 px-4 border-b">ID</th>
                                 <th class="py-2 px-4 border-b">Customer Name</th>
                                 <th class="py-2 px-4 border-b">Phone Number</th>
-                                <th class="py-2 px-4 border-b">Weight (kg)</th>
-                                <th class="py-2 px-4 border-b">Date</th>
+                                <th class="py-2 px-4 border-b">Weight</th>
                                 <th class="py-2 px-4 border-b">Service</th>
                                 <th class="py-2 px-4 border-b">Total Cost</th>
+                                <th class="py-2 px-4 border-b">Laundry Date</th>
                                 <th class="py-2 px-4 border-b">Actions</th>
                             </tr>
                         </thead>
@@ -43,13 +42,12 @@
                                     @if(!$transactions->contains('laundry_id', $laundry->id))
                                     @if($laundry->status == 'Finished')
                                         <tr class="hover:bg-gray-100 transition-colors duration-200">
-                                            <td class="py-2 px-4 border-b">{{ $laundry->id }}</td>
                                             <td class="py-2 px-4 border-b">{{ $laundry->customer_name }}</td>
                                             <td class="py-2 px-4 border-b">{{ $laundry->customer_phone_number }}</td>
-                                            <td class="py-2 px-4 border-b">{{ $laundry->laundry_weight }}</td>
-                                            <td class="py-2 px-4 border-b">{{ $laundry->laundry_date }}</td>
+                                            <td class="py-2 px-4 border-b">{{ $laundry->laundry_weight }}kg</td>
                                             <td class="py-2 px-4 border-b">{{ $laundry->service->service_name }}</td>
                                             <td class="py-2 px-4 border-b">Rp{{ number_format($laundry->laundry_weight * $laundry->service->service_price, 0, ',', '.') }}</td>
+                                            <td class="py-2 px-4 border-b">{{ $laundry->laundry_date }}</td>
                                             <td class="py-2 px-4 border-b">
                                                 <button onclick="openPaidModal({{ $laundry->id }})"
                                                     class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-1 px-2 rounded-md transition-colors duration-200">
@@ -72,26 +70,24 @@
                     <table class="min-w-full bg-white shadow-md rounded-lg">
                         <thead>
                             <tr>
-                                <th class="py-2 px-4 border-b">ID</th>
-                                <th class="py-2 px-4 border-b">Payment Date</th>
                                 <th class="py-2 px-4 border-b">Customer Name</th>
                                 <th class="py-2 px-4 border-b">Phone Number</th>
                                 <th class="py-2 px-4 border-b">Weight</th>
                                 <th class="py-2 px-4 border-b">Service</th>
                                 <th class="py-2 px-4 border-b">Total Cost</th>
+                                <th class="py-2 px-4 border-b">Payment Date</th>
                                 <th class="py-2 px-4 border-b">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($transactions as $transaction)
                             <tr class="hover:bg-gray-100 transition-colors duration-200">
-                                <td class="py-2 px-4 border-b">{{ $transaction->id }}</td>
-                                <td class="py-2 px-4 border-b">{{ $transaction->payment_date }}</td>
                                 <td class="py-2 px-4 border-b">{{ $transaction->laundry->customer_name }}</td>
                                 <td class="py-2 px-4 border-b">{{ $transaction->laundry->customer_phone_number }}</td>
                                 <td class="py-2 px-4 border-b">{{ $transaction->laundry->laundry_weight }}kg</td>
                                 <td class="py-2 px-4 border-b">{{ $transaction->laundry->service->service_name }}</td>
                                 <td class="py-2 px-4 border-b">{{ $transaction->formatted_total_price }}</td>
+                                <td class="py-2 px-4 border-b">{{ $transaction->payment_date }}</td>
                                 <td class="py-2 px-4 border-b">
                                     <button onclick="printReceipt({{ $transaction->id }})" class="bg-gray-500 hover:bg-gray-400 text-white font-bold py-1 px-2 rounded-md transition-colors duration-200">Print Receipt</button>
                                 </td>

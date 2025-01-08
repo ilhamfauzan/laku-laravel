@@ -50,7 +50,7 @@
                                 @foreach ($services as $service)
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap text-gray-800">{{ $service->service_name }}</td>
-                                        <td class="px-6 py-4 text-gray-800">{{ $service->formatted_service_price }}</td>
+                                        <td class="px-6 py-4 text-gray-800">{{ $service->formatted_service_price }}/kg</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
                                             <button
                                                 onclick="openEditModal({{ $service->id }}, '{{ $service->service_name }}', {{ $service->service_price }})"
