@@ -33,35 +33,6 @@
             <div class="mt-6">
                 <h2 class="text-2xl font-semibold text-gray-900">Registered Users</h2>
                 <div class="overflow-x-auto">
-                    {{-- <table class="min-w-full bg-white shadow-md rounded-lg">
-                        <thead>
-                            <tr>
-                                <th class="py-2 px-4 border-b">Name</th>
-                                <th class="py-2 px-4 border-b">Email</th>
-                                <th class="py-2 px-4 border-b">Role</th>
-                                <th class="py-2 px-4 border-b">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($users as $user)
-                                <tr class="hover:bg-gray-100 transition-colors duration-200">
-                                    <td class="py-2 px-4 border-b">{{ $user->name }}</td>
-                                    <td class="py-2 px-4 border-b">{{ $user->email }}</td>
-                                    <td class="py-2 px-4 border-b">{{ ucfirst($user->role) }}</td>
-                                    <td class="py-2 px-4 border-b">
-                                        <button onclick="openUserModal({{ $user }})"
-                                            class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-1 px-2 rounded-md transition-colors duration-200">
-                                            Edit
-                                        </button>
-                                        <button onclick="openDeleteUserModal({{ $user->id }})"
-                                            class="bg-red-500 hover:bg-red-400 text-white font-bold py-1 px-2 rounded-md transition-colors duration-200">
-                                            Delete
-                                        </button>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table> --}}
 
                     <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 m-4">
                         @foreach ($users as $user)
@@ -70,7 +41,11 @@
                                 style="background-color: white;" data-color="white">
                                 <div class="p-4 sm:p-6 flex flex-col justify-end h-full w-full aspect-square">
                                     <div class="text-content">
-                                        <p class="text-4xl sm:text-6xl mb-2 sm:mb-4">👷</p>
+                                        @if ($user->role === 'owner')
+                                            <p class="text-4xl sm:text-6xl mb-2 sm:mb-4">🤵</p>
+                                        @elseif ($user->role === 'cashier')
+                                            <p class="text-4xl sm:text-6xl mb-2 sm:mb-4">👷</p>
+                                        @endif
                                         <!-- Tampilkan emoji -->
                                         @if (auth()->user()->id === $user->id)
                                             <h3 class="text-lg sm:text-xl font-semibold">{{ $user->name }} (You)</h3>
@@ -92,6 +67,7 @@
                 class="fixed inset-0 bg-gray-900 bg-opacity-50 hidden overflow-y-auto h-full w-full z-50 flex items-center justify-center">
                 <div class="relative p-5 border w-full max-w-md shadow-lg rounded-md bg-white border-gray-300">
                     <div class="mt-3">
+                        <h2 class="text-2xl font-semibold text-gray-900">Add new User</h2>
                         <form id="userForm" method="POST" class="mt-4">
                             @csrf
                             <input type="hidden" name="_method" value="POST" id="userFormMethod">
@@ -117,6 +93,15 @@
                                     class="w-full rounded-md bg-gray-100 border-gray-300 text-gray-700 focus:border-blue-500 focus:ring focus:ring-blue-500/50">
                             </div>
                             <div class="mb-2">
+                                <label class="block text-gray-700 text-sm font-bold mb-1" for="password_confirmation">
+                                    Confirm Password
+                                </label>
+                                <input type="password" name="password_confirmation" id="password_confirmation" placeholder="Confirm password"
+                                    class="w-full rounded-md bg-gray-100 border-gray-300 text-gray-700 focus:border-blue-500 focus:ring focus:ring-blue-500/50">
+                                <p id="passwordMismatch" class="text-red-500 text-sm mt-1 hidden">Passwords do not match.</p>
+                                <p id="passwordError" class="text-red-500 text-sm mt-1 hidden">Passwords must be at least 8 characters.</p>
+                            </div>
+                            <div class="mb-2">
                                 <label class="block text-gray-700 text-sm font-bold mb-1" for="role">
                                     Role
                                 </label>
@@ -132,7 +117,7 @@
                                     Cancel
                                 </button>
                                 <button type="submit"
-                                    class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-500/80">
+                                    class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-500/80 disabled:opacity-50">
                                     Save User
                                 </button>
                             </div>
@@ -141,12 +126,12 @@
                             <form id="deleteUserForm" method="POST" class="hidden">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit"
-                                    class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-400">
+                                <button type="button" onclick="openDeleteUserModal({{ $user->id }})" class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-400">
                                     Delete
                                 </button>
                             </form>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -165,7 +150,7 @@
                                 class="mr-2 px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-200">
                                 Cancel
                             </button>
-                            <form id="deleteUserForm" method="POST">
+                            <form id="confirmDeleteUserForm" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit"
@@ -209,6 +194,8 @@
                 document.getElementById('email').value = user.email;
                 document.getElementById('role').value = user.role;
                 document.getElementById('password').value = ''; // Clear password field
+                document.getElementById('password_confirmation').value = ''; // Clear password confirmation field
+                deleteForm.action = `/users/${user.id}`;
                 deleteForm.classList.remove('hidden'); // Show delete button
             } else {
                 form.action = '{{ route('users.store') }}';
@@ -226,13 +213,48 @@
 
         function openDeleteUserModal(id) {
             const deleteModal = document.getElementById('deleteUserModal');
-            const deleteForm = document.getElementById('deleteUserForm');
-            deleteForm.action = `/users/${id}`;
+            const confirmDeleteForm = document.getElementById('confirmDeleteUserForm');
+            confirmDeleteForm.action = `/users/${id}`;
             deleteModal.classList.remove('hidden');
         }
 
         function closeDeleteUserModal() {
             document.getElementById('deleteUserModal').classList.add('hidden');
         }
-    </script>
+
+        document.getElementById('password_confirmation').addEventListener('input', function() {
+            const password = document.getElementById('password').value;
+            const passwordConfirmation = document.getElementById('password_confirmation').value;
+            const mismatchMessage = document.getElementById('passwordMismatch');
+
+            const saveButton = document.querySelector('#userForm button[type="submit"]');
+            if (password !== passwordConfirmation) {
+                mismatchMessage.classList.remove('hidden');
+                saveButton.disabled = true;
+            } else {
+                mismatchMessage.classList.add('hidden');
+                if (password.length >= 8) {
+                    saveButton.disabled = false;
+                }
+            }
+        });
+
+        // Password validation
+        document.getElementById('password').addEventListener('input', function() {
+            const password = document.getElementById('password').value;
+            const passwordConfirmation = document.getElementById('password_confirmation').value;
+            const saveButton = document.querySelector('#userForm button[type="submit"]');
+            const passwordError = document.getElementById('passwordError');
+
+            if (password.length < 8) {
+                passwordError.classList.remove('hidden');
+                saveButton.disabled = true;
+            } else {
+                passwordError.classList.add('hidden');
+                if (password === passwordConfirmation) {
+                    saveButton.disabled = false;
+                }
+            }
+        });
+        </script>
 </x-app-layout>

@@ -72,6 +72,7 @@
                     </a>
                     @endif
 
+                    @if(auth()->user()->role !== 'owner')
                     <a href="{{ route('profile.edit') }}"
                         class="flex items-center w-full px-4 py-2 text-gray-800 hover:text-white hover:bg-blue-400 rounded-lg {{ request()->routeIs('profile.edit') ? 'bg-blue-500 text-white' : '' }}">
                         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -80,11 +81,12 @@
                         </svg>
                         <span>{{ __('Profile') }}</span>
                     </a>
+                    @endif
                 </nav>
 
                 <!-- Settings -->
                 <div class="p-4 border-t border-gray-300">
-                    <form method="POST" action="#">
+                    <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button type="submit"
                             class="flex items-center w-full px-4 py-2 text-gray-800 hover:bg-blue-400 rounded-lg hover:text-white">
