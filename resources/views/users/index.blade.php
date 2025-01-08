@@ -70,7 +70,7 @@
                                 style="background-color: white;" data-color="white">
                                 <div class="p-4 sm:p-6 flex flex-col justify-end h-full w-full aspect-square">
                                     <div class="text-content">
-                                        <p class="text-4xl sm:text-6xl mb-2 sm:mb-4">🗿</p>
+                                        <p class="text-4xl sm:text-6xl mb-2 sm:mb-4">👷</p>
                                         <!-- Tampilkan emoji -->
                                         @if (auth()->user()->id === $user->id)
                                             <h3 class="text-lg sm:text-xl font-semibold">{{ $user->name }} (You)</h3>

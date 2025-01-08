@@ -17,31 +17,39 @@ class DatabaseSeeder extends Seeder
     {
         // Seed login data
         DB::table('users')->insert([
-            'name' => 'John Doe',
-            'email' => 'john@example.com',
-            'password' => Hash::make('password'),
-            'role' => 'owner',
+            [
+                'name' => 'Thom Baker',
+                'email' => 'thom@laundry.com',
+                'password' => Hash::make('password'),
+                'role' => 'owner',
+            ],
+            [
+                'name' => 'Maggie Cheung',
+                'email' => 'maggie@laundry.com',
+                'password' => Hash::make('password'),
+                'role' => 'cashier',
+            ],
         ]);
 
         // Seed services data
         DB::table('services')->insert([
             [
-                'service_name' => 'Standar',
-                'service_price' => 100.00,
+                'service_name' => 'Standard',
+                'service_price' => 8000.00,
                 'user_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'service_name' => 'Express',
-                'service_price' => 200.00,
+                'service_price' => 10000.00,
                 'user_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'service_name' => 'Instant',
-                'service_price' => 150.00,
+                'service_price' => 15000.00,
                 'user_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -51,9 +59,9 @@ class DatabaseSeeder extends Seeder
         // Seed laundry data
         DB::table('laundries')->insert([
             [
-                'customer_name' => 'John Doe',
-                'customer_phone_number' => '123456789',
-                'laundry_weight' => 5.00,
+                'customer_name' => 'Tony Leung',
+                'customer_phone_number' => '089755538123',
+                'laundry_weight' => 10.00,
                 'laundry_date' => now(),
                 'user_id' => 1,
                 'service_id' => 1,
@@ -61,12 +69,23 @@ class DatabaseSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'customer_name' => 'Jane Doe',
-                'customer_phone_number' => '987654321',
-                'laundry_weight' => 3.00,
+                'customer_name' => 'Faye Wong',
+                'customer_phone_number' => '081266662122',
+                'laundry_weight' => 5.00,
                 'laundry_date' => now(),
                 'user_id' => 1,
                 'service_id' => 2,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'customer_name' => 'Brigitte Lin',
+                'customer_phone_number' => '083267772899',
+                'laundry_weight' => 5.00,
+                'laundry_date' => now(),
+                'user_id' => 1,
+                'service_id' => 2,
+                'status' => 'Finished',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -76,19 +95,10 @@ class DatabaseSeeder extends Seeder
         DB::table('transactions')->insert([
             [
                 'payment_date' => now(),
-                'total_price' => 150.00,
+                'total_price' => 50000.00,
                 'payment_status' => 'completed',
                 'user_id' => 1,
-                'laundry_id' => 1,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'payment_date' => now(),
-                'total_price' => 300.00,
-                'payment_status' => 'pending',
-                'user_id' => 1,
-                'laundry_id' => 2,
+                'laundry_id' => 3,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
