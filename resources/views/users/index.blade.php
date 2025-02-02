@@ -45,6 +45,8 @@
                                             <p class="text-4xl sm:text-6xl mb-2 sm:mb-4">🤵</p>
                                         @elseif ($user->role === 'cashier')
                                             <p class="text-4xl sm:text-6xl mb-2 sm:mb-4">👷</p>
+                                        @elseif ($user->role === 'unauthorized')
+                                            <p class="text-4xl sm:text-6xl mb-2 sm:mb-4">🚫</p>
                                         @endif
                                         <!-- Tampilkan emoji -->
                                         @if (auth()->user()->id === $user->id)
@@ -109,6 +111,7 @@
                                     class="w-full rounded-md bg-gray-100 border-gray-300 text-gray-700 focus:border-blue-500 focus:ring focus:ring-blue-500/50">
                                     <option value="cashier">Cashier</option>
                                     <option value="owner">Owner</option>
+                                    <option value="unauthorized">Unauthorized</option>
                                 </select>
                             </div>
                             <div class="flex justify-end mt-2">

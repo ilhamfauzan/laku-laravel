@@ -29,6 +29,12 @@ class DatabaseSeeder extends Seeder
                 'password' => Hash::make('password'),
                 'role' => 'cashier',
             ],
+            [
+                'name' => 'John Doe',
+                'email' => 'john@laundry.com',
+                'password' => Hash::make('password'),
+                'role' => 'unauthorized',
+            ],
         ]);
 
         // Seed services data
