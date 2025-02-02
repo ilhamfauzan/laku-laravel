@@ -69,7 +69,7 @@
                 class="fixed inset-0 bg-gray-900 bg-opacity-50 hidden overflow-y-auto h-full w-full z-50 flex items-center justify-center">
                 <div class="relative p-5 border w-full max-w-md shadow-lg rounded-md bg-white border-gray-300">
                     <div class="mt-3">
-                        <h2 class="text-2xl font-semibold text-gray-900">Add new User</h2>
+                        <h2 class="text-2xl font-semibold text-gray-900" id="userModalTitle">Add a new User</h2>
                         <form id="userForm" method="POST" class="mt-4">
                             @csrf
                             <input type="hidden" name="_method" value="POST" id="userFormMethod">
@@ -103,18 +103,18 @@
                                 <p id="passwordMismatch" class="text-red-500 text-sm mt-1 hidden">Passwords do not match.</p>
                                 <p id="passwordError" class="text-red-500 text-sm mt-1 hidden">Passwords must be at least 8 characters.</p>
                             </div>
-                            <div class="mb-2">
+                            <div class="mb-2" id="role">
                                 <label class="block text-gray-700 text-sm font-bold mb-1" for="role">
                                     Role
                                 </label>
                                 <select name="role" id="role" required
                                     class="w-full rounded-md bg-gray-100 border-gray-300 text-gray-700 focus:border-blue-500 focus:ring focus:ring-blue-500/50">
+                                    <option value="unauthorized">Unauthorized</option>
                                     <option value="cashier">Cashier</option>
                                     <option value="owner">Owner</option>
-                                    <option value="unauthorized">Unauthorized</option>
                                 </select>
                             </div>
-                            <div class="flex justify-end mt-2">
+                            <div class="flex justify-end mt-4">
                                 <button type="button" onclick="closeUserModal()"
                                     class="mr-2 px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-200">
                                     Cancel
@@ -185,9 +185,12 @@
             }, 3000);
         
         function openUserModal(user = null) {
+            document.getElementById('userModalTitle').textContent = user ? 'Edit User' : 'Add New User';
+            
             const modal = document.getElementById('userModal');
             const form = document.getElementById('userForm');
             const methodInput = document.getElementById('userFormMethod');
+            const roleForm = document.getElementById('role');
             const deleteForm = document.getElementById('deleteUserForm');
 
             if (user) {
@@ -198,8 +201,15 @@
                 document.getElementById('role').value = user.role;
                 document.getElementById('password').value = ''; // Clear password field
                 document.getElementById('password_confirmation').value = ''; // Clear password confirmation field
-                deleteForm.action = `/users/${user.id}`;
-                deleteForm.classList.remove('hidden'); // Show delete button
+
+                if (user.role === 'owner' && user.id == {{ auth()->user()->id }}) {
+                    deleteForm.classList.add('hidden'); // Hide delete button
+                    roleForm.classList.add('hidden'); // Hide delete button
+                } else {
+                    deleteForm.action = `/users/${user.id}`;
+                    roleForm.classList.remove('hidden'); // Show role form
+                    deleteForm.classList.remove('hidden'); // Show delete button
+                }
             } else {
                 form.action = '{{ route('users.store') }}';
                 methodInput.value = 'POST';

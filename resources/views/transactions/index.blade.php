@@ -33,47 +33,6 @@
                 </div>
             @endif
 
-            <div class="mt-6">
-                <h2 class="text-2xl font-semibold text-gray-900">Finished Laundry</h2>
-                <p class="text-sm text-gray-500 mb-4">The following laundry orders are finished but have not been picked up yet.</p>
-                <div class="overflow-x-auto">
-                    <table class="min-w-full bg-white shadow-md rounded-lg">
-                        <thead>
-                            <tr>
-                                <th class="py-2 px-4 border-b">Customer Name</th>
-                                <th class="py-2 px-4 border-b">Phone Number</th>
-                                <th class="py-2 px-4 border-b">Weight</th>
-                                <th class="py-2 px-4 border-b">Service</th>
-                                <th class="py-2 px-4 border-b">Total Cost</th>
-                                <th class="py-2 px-4 border-b">Laundry Date</th>
-                                <th class="py-2 px-4 border-b">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                                @foreach($laundries as $laundry)
-                                    @if(!$transactions->contains('laundry_id', $laundry->id))
-                                    @if($laundry->status == 'Finished')
-                                        <tr class="hover:bg-gray-100 transition-colors duration-200">
-                                            <td class="py-2 px-4 border-b">{{ $laundry->customer_name }}</td>
-                                            <td class="py-2 px-4 border-b">{{ $laundry->customer_phone_number }}</td>
-                                            <td class="py-2 px-4 border-b">{{ $laundry->laundry_weight }}kg</td>
-                                            <td class="py-2 px-4 border-b">{{ $laundry->service->service_name }}</td>
-                                            <td class="py-2 px-4 border-b">Rp{{ number_format($laundry->laundry_weight * $laundry->service->service_price, 0, ',', '.') }}</td>
-                                            <td class="py-2 px-4 border-b">{{ $laundry->laundry_date }}</td>
-                                            <td class="py-2 px-4 border-b">
-                                                <button onclick="openPaidModal({{ $laundry->id }})"
-                                                    class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-1 px-2 rounded-md transition-colors duration-200">
-                                                    Set as Paid
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                    @endif
-                                @endif
-                            @endforeach
-                        </table>
-                </div>
-            </div>
 
             <div class="mt-6">
                 <h2 class="text-2xl font-semibold text-gray-900">Finished Transactions</h2>
@@ -155,16 +114,6 @@
                 });
             }, 3000);
 
-        function openPaidModal(id) {
-            const paidModal = document.getElementById('paidModal');
-            const paidForm = document.getElementById('paidForm');
-            paidForm.action = `/transactions/${id}/markAsPaid`;
-            paidModal.classList.remove('hidden');
-        }
-
-        function closePaidModal() {
-            document.getElementById('paidModal').classList.add('hidden');
-        }
 
         function printReceipt(id) {
             const url = `/transactions/${id}/printReceipt`;

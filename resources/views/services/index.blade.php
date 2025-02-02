@@ -103,13 +103,13 @@
                     <label class="block text-gray-800 text-sm font-bold mb-2">Name</label>
                     <input type="text" name="service_name" id="serviceName" required
                         placeholder="Enter service name"
-                        class="w-full rounded-md bg-gray-100 border-gray-300 text-gray-800 focus:border-yellow-500 focus:ring focus:ring-yellow-200">
+                        class="w-full rounded-md bg-gray-100 border-gray-300 text-gray-800 focus:ring">
                     </div>
                     <div class="mb-4">
-                    <label class="block text-gray-800 text-sm font-bold mb-2">Price</label>
+                    <label class="block text-gray-800 text-sm font-bold mb-2">Price (per Kg)</label>
                     <input type="number" name="service_price" id="servicePrice" required
                         placeholder="Enter service price"
-                        class="w-full rounded-md bg-gray-100 border-gray-300 text-gray-800 focus:border-yellow-500 focus:ring focus:ring-yellow-200">
+                        class="w-full rounded-md bg-gray-100 border-gray-300 text-gray-800 focus:ring">
                     </div>
                 </div>
                 <div class="flex justify-end mt-4">

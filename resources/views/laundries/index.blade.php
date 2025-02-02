@@ -10,7 +10,7 @@
                 </button>
                 <form action="{{ route('laundries.index') }}" method="get" class="flex items-center">
                     <input type="text" name="keyword" placeholder="Search by name or phone..."
-                        class="rounded-md bg-gray-100 border-gray-300 text-gray-700 focus:border-[#FCD535] focus:ring focus:ring-[#FCD535]/50 py-2 px-4">
+                        class="rounded-md bg-gray-100 border-gray-300 text-gray-700 focus:ring py-2 px-4">
                     <button type="submit"
                         class="ml-2 bg-blue-500 hover:bg-blue-500/80 text-white font-bold py-2 px-4 rounded-md transition-colors duration-200">
                         Search
@@ -113,6 +113,7 @@
                                     <th class="py-2 px-4 border-b">Service</th>
                                     <th class="py-2 px-4 border-b">Total Cost</th>
                                     <th class="py-2 px-4 border-b">Status</th>
+                                    <th class="py-2 px-4 border-b">Actions</th>
                                 </tr>
                             </thead>
                             <tbody id="Content">
@@ -126,6 +127,12 @@
                                             <td class="py-2 px-4 border-b">{{ $laundry->service->service_name }}</td>
                                             <td class="py-2 px-4 border-b">Rp{{ number_format($laundry->laundry_weight * $laundry->service->service_price, 0, ',', '.') }}</td>
                                             <td class="py-2 px-4 border-b">{{ $laundry->status }}</td>
+                                            <td class="py-2 px-4 border-b">
+                                                <button onclick="openPaidModal({{ $laundry->id }})"
+                                                    class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-1 px-2 rounded-md transition-colors duration-200">
+                                                    Set as Paid
+                                                </button>
+                                            </td>
                                         </tr>
                                     @endif
                                 @endforeach
@@ -138,6 +145,33 @@
             <!-- Existing notification blocks remain the same -->
 
             <!-- Modal -->
+            <!-- Paid Confirmation Modal -->
+            <div id="paidModal"
+            class="fixed inset-0 bg-gray-900 bg-opacity-50 hidden overflow-y-auto h-full w-full z-50 flex items-center justify-center">
+            <div class="relative p-5 border w-full max-w-md shadow-lg rounded-md bg-white border-gray-300">
+                <div class="mt-3 text-center">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900">Confirm Payment</h3>
+                    <div class="mt-2">
+                        <p class="text-sm text-gray-500">Are you sure you want to mark this transaction as paid? This action cannot be undone.</p>
+                    </div>
+                    <div class="mt-4 flex justify-center">
+                        <button type="button" onclick="closePaidModal()"
+                            class="mr-2 px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-200">
+                            Cancel
+                        </button>
+                        <form id="paidForm" method="POST">
+                            @csrf
+                            @method('POST')
+                            <button type="submit"
+                                class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-400">
+                                Confirm
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
             <div id="laundryModal"
                 class="fixed inset-0 bg-gray-900 bg-opacity-50 hidden overflow-y-auto h-full w-full z-50 flex items-center justify-center">
                 <div class="relative p-5 border w-full max-w-md shadow-lg rounded-md bg-white border-gray-300">
@@ -150,35 +184,35 @@
                                     Customer Name
                                 </label>
                                 <input type="text" name="customer_name" id="customer_name" required placeholder="Enter customer name"
-                                    class="w-full rounded-md bg-gray-100 border-gray-300 text-gray-700 focus:border-[#FCD535] focus:ring focus:ring-[#FCD535]/50">
+                                    class="w-full rounded-md bg-gray-100 border-gray-300 text-gray-700 focus:ring">
                             </div>
                             <div class="mb-2">
                                 <label class="block text-gray-700 text-sm font-bold mb-1" for="customer_phone_number">
                                     Customer Phone Number
                                 </label>
-                                <input type="text" name="customer_phone_number" id="customer_phone_number" placeholder="Enter customer phone number"
-                                    class="w-full rounded-md bg-gray-100 border-gray-300 text-gray-700 focus:border-[#FCD535] focus:ring focus:ring-[#FCD535]/50">
+                                <input type="number" name="customer_phone_number" id="customer_phone_number" placeholder="Enter customer phone number"
+                                    class="w-full rounded-md bg-gray-100 border-gray-300 text-gray-700 focus:ring">
                             </div>
                             <div class="mb-2">
                                 <label class="block text-gray-700 text-sm font-bold mb-1" for="laundry_weight">
                                     Weight (kg)
                                 </label>
                                 <input type="number" step="0.1" name="laundry_weight" id="laundry_weight" required placeholder="Enter laundry weight"
-                                    class="w-full rounded-md bg-gray-100 border-gray-300 text-gray-700 focus:border-[#FCD535] focus:ring focus:ring-[#FCD535]/50" oninput="updateTotalCost()">
+                                    class="w-full rounded-md bg-gray-100 border-gray-300 text-gray-700 focus:ring" oninput="updateTotalCost()">
                             </div>
                             <div class="mb-2">
                                 <label class="block text-gray-700 text-sm font-bold mb-1" for="laundry_date">
                                     Laundry Date
                                 </label>
                                 <input type="date" name="laundry_date" id="laundry_date" required
-                                    class="w-full rounded-md bg-gray-100 border-gray-300 text-gray-700 focus:border-[#FCD535] focus:ring focus:ring-[#FCD535]/50">
+                                    class="w-full rounded-md bg-gray-100 border-gray-300 text-gray-700 focus:ring">
                             </div>
                             <div class="mb-2">
                                 <label class="block text-gray-700 text-sm font-bold mb-1" for="service_id">
                                     Service Type
                                 </label>
                                 <select name="service_id" id="service_id" required
-                                    class="w-full rounded-md bg-gray-100 border-gray-300 text-gray-700 focus:border-[#FCD535] focus:ring focus:ring-[#FCD535]/50" onchange="updateTotalCost()">
+                                    class="w-full rounded-md bg-gray-100 border-gray-300 text-gray-700 focus:ring" onchange="updateTotalCost()">
                                     @foreach($services as $service)
                                         <option value="{{ $service->id }}" data-price="{{ $service->service_price }}">{{ $service->service_name }} (Rp{{ $service->service_price }}/kg)</option>
                                     @endforeach
@@ -262,6 +296,17 @@
     </div>
 
     <script>
+
+function openPaidModal(id) {
+            const paidModal = document.getElementById('paidModal');
+            const paidForm = document.getElementById('paidForm');
+            paidForm.action = `/laundries/${id}/markAsPaid`;
+            paidModal.classList.remove('hidden');
+        }
+
+        function closePaidModal() {
+            document.getElementById('paidModal').classList.add('hidden');
+        }
 
 
         // Show notifications with animation

@@ -90,7 +90,7 @@
                         <tr>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Weight</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                         </tr>
                     </thead>
@@ -104,11 +104,11 @@
                                     <div class="text-sm text-gray-900">{{ $laundry->customer_name }}</div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900">Rp{{ $laundry->laundry_weight }}</div>
+                                    <div class="text-sm text-gray-900">{{ $laundry->laundry_weight }}kg</div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <span
-                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $laundry->status === 'finished' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                        class="px-3 inline-flex text-xs leading-5 font-semibold rounded-full {{ $laundry->status === 'Finished' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
                                         {{ $laundry->status }}
                                     </span>
                                 </td>

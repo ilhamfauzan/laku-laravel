@@ -12,12 +12,15 @@ class TransactionController extends Controller
     public function index(Request $request)
     { 
         if ($request->keyword) {
-            $laundries = Laundry::search($request->keyword)->get();
+            $transactions = Transaction::whereHas('laundry', function ($query) use ($request) {
+                $query->where('customer_name', 'like', '%' . $request->keyword . '%')
+                      ->orWhere('customer_phone_number', 'like', '%' . $request->keyword . '%');
+            })->get();
+            $laundries = Laundry::all();
         } else {
             $transactions = Transaction::where('payment_status', 'completed')->get();
             $laundries = Laundry::all();
         }
-        $transactions = Transaction::where('payment_status', 'completed')->get();
         // $laundries = Laundry::where('user_id', Auth::user()->id)->get();
         // dd($transactions);
         return view('transactions.index', compact('transactions', 'laundries'));
