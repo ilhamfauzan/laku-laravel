@@ -9,10 +9,16 @@ use Illuminate\Support\Facades\Auth;
 
 class TransactionController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     { 
+        if ($request->keyword) {
+            $laundries = Laundry::search($request->keyword)->get();
+        } else {
+            $transactions = Transaction::where('payment_status', 'completed')->get();
+            $laundries = Laundry::all();
+        }
         $transactions = Transaction::where('payment_status', 'completed')->get();
-        $laundries = Laundry::where('user_id', Auth::user()->id)->get();
+        // $laundries = Laundry::where('user_id', Auth::user()->id)->get();
         // dd($transactions);
         return view('transactions.index', compact('transactions', 'laundries'));
     }

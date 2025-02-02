@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Laravel\Scout\Searchable;
 
 class Laundry extends Model
 {
     use HasFactory;
+    use Searchable;
 
     protected $fillable = [
         'customer_name',
@@ -50,4 +52,11 @@ class Laundry extends Model
         return 'Rp' . number_format($this->total_price, 0, ',', '.');
     }
 
+    public function toSearchableArray(): array
+    {
+        return [
+            'customer_name' => $this->customer_name,
+            'customer_phone_number' => $this->customer_phone_number,
+        ];
+    }
 }

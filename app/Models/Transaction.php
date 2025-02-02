@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use Laravel\Scout\Searchable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Transaction extends Model
 {
     use HasFactory;
+    use Searchable;
 
     protected $fillable = [
         'user_id',
@@ -58,5 +60,13 @@ class Transaction extends Model
     {
         // Logic to generate receipt
         return "Receipt for Transaction ID: {$this->id}";
+    }
+
+    public function toSearchableArray(): array
+    {
+        return [
+            'customer_name' => $this->customer_name,
+            'customer_phone_number' => $this->customer_phone_number,
+        ];
     }
 }

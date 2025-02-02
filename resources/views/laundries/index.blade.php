@@ -2,13 +2,22 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-4 lg:px-8">
             <!-- Add Laundry Button -->
-            <div class="mb-4 flex ml-4">
+            <div class="mb-4 flex justify-between items-center ml-4 mr-4">
                 <button type="button"
                     class="bg-blue-500 hover:bg-blue-500/80 text-white font-bold py-2 px-4 rounded-md transition-colors duration-200"
                     onclick="openModal()">
                     Add New Laundry
                 </button>
+                <form action="{{ route('laundries.index') }}" method="get" class="flex items-center">
+                    <input type="text" name="keyword" placeholder="Search by name or phone..."
+                        class="rounded-md bg-gray-100 border-gray-300 text-gray-700 focus:border-[#FCD535] focus:ring focus:ring-[#FCD535]/50 py-2 px-4">
+                    <button type="submit"
+                        class="ml-2 bg-blue-500 hover:bg-blue-500/80 text-white font-bold py-2 px-4 rounded-md transition-colors duration-200">
+                        Search
+                    </button>
+                </form>
             </div>
+            
 
             <!-- Notifications -->
             @if (session('success'))
@@ -94,7 +103,7 @@
                     <h2 class="text-2xl font-semibold text-gray-900">Finished Laundries</h2>
                     <p class="text-sm text-gray-500 mb-4">The following laundry orders are finished but have not been picked up yet.</p>
                     <div class="overflow-x-auto">
-                        <table class="min-w-full bg-white shadow-md rounded-lg">
+                        <table class="min-w-full bg-white shadow-xl rounded-xl border-gray-300">
                             <thead>
                                 <tr>
                                     <th class="py-2 px-4 border-b">Customer Name</th>
@@ -106,7 +115,7 @@
                                     <th class="py-2 px-4 border-b">Status</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="Content">
                                 @foreach ($laundries->where('status', 'Finished') as $laundry)
                                     @if (!$transactions->contains('laundry_id', $laundry->id))
                                         <tr class="hover:bg-gray-100 transition-colors duration-200">
@@ -253,6 +262,8 @@
     </div>
 
     <script>
+
+
         // Show notifications with animation
         document.querySelectorAll('.notification').forEach(notification => {
                 notification.classList.add('opacity-100');

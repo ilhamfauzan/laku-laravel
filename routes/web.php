@@ -30,6 +30,7 @@ Route::middleware(['auth', CheckAllRole::class])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('/laundries', LaundryController::class);
+    Route::get('/laundries', [LaundryController::class, 'index'])->name('laundries.index');
     Route::put('/laundries/{laundry}/finish', [LaundryController::class, 'finish'])->name('laundries.finish');
 
     Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');

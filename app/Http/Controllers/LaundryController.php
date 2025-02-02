@@ -12,10 +12,15 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class LaundryController extends Controller
 {
     use AuthorizesRequests;
-    public function index()
+    public function index(Request $request)
     {
-        // $laundries = Laundry::where('user_id', Auth::user()->id)->get();
-        $laundries = Laundry::all();
+        if ($request->keyword) {
+            $laundries = Laundry::search($request->keyword)->get();
+            // dd($laundries);
+        } else {
+            $laundries = Laundry::all();
+        }
+        // $laundries = Laundry::all();
         $services = Service::all();
         $transactions = Transaction::all();
         // dd($services);
@@ -91,4 +96,5 @@ class LaundryController extends Controller
 
         return redirect()->route('laundries.index')->with('success', 'Laundry marked as finished.');
     }
+
 }

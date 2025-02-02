@@ -1,6 +1,18 @@
 <x-app-layout>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-4 lg:px-8">
+            <!-- Add Laundry Button -->
+            <div class="mb-4 flex justify-between items-center ml-4 mr-4">
+                <div class=""></div>
+                <form action="{{ route('transactions.index') }}" method="get" class="flex items-center">
+                    <input type="text" name="keyword" placeholder="Search by name or phone..."
+                        class="rounded-md bg-gray-100 border-gray-300 text-gray-700 focus:border-[#FCD535] focus:ring focus:ring-[#FCD535]/50 py-2 px-4">
+                    <button type="submit"
+                        class="ml-2 bg-blue-500 hover:bg-blue-500/80 text-white font-bold py-2 px-4 rounded-md transition-colors duration-200">
+                        Search
+                    </button>
+                </form>
+            </div>
 
             {{-- Notifications --}}
             @if (session('success'))
