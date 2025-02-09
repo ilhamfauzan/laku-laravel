@@ -18,7 +18,9 @@ class DashboardController extends Controller
     {
         $services = Service::all();
         $laundries = Laundry::all();
-        $finishedLaundries = Laundry::where('status', 'finished')->get();
+        $finishedLaundries = Laundry::where('status', 'finished')
+            ->whereDoesntHave('transactions')
+            ->get();
         $unfinishedLaundries = Laundry::where('status', 'unfinished')->get();
 
         $incomeToday = Transaction::where('payment_status', 'completed')

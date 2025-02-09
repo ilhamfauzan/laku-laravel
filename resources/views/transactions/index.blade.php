@@ -49,12 +49,13 @@
                         <table class="min-w-full bg-white shadow-md rounded-lg mb-8">
                             <thead>
                                 <tr>
-                                    <th class="py-2 px-4 border-b">Customer Name</th>
-                                    <th class="py-2 px-4 border-b">Phone Number</th>
-                                    <th class="py-2 px-4 border-b">Weight</th>
-                                    <th class="py-2 px-4 border-b">Service</th>
-                                    <th class="py-2 px-4 border-b">Total Cost</th>
-                                    <th class="py-2 px-4 border-b">Payment Date</th>
+                                    <th class="py-2 px-4 border-b text-left">Customer Name</th>
+                                    <th class="py-2 px-4 border-b text-left">Phone Number</th>
+                                    <th class="py-2 px-4 border-b text-left">Weight</th>
+                                    <th class="py-2 px-4 border-b text-left">Service</th>
+                                    <th class="py-2 px-4 border-b text-left">Total Cost</th>
+                                    <th class="py-2 px-4 border-b text-left">Payment Date</th>
+                                    <th class="py-2 px-4 border-b text-left">Cashier Name</th>
                                     <th class="py-2 px-4 border-b">Actions</th>
                                 </tr>
                             </thead>
@@ -68,6 +69,8 @@
                                             <td class="py-2 px-4 border-b">{{ $transaction->laundry->service->service_name }}</td>
                                             <td class="py-2 px-4 border-b">{{ $transaction->formatted_total_price }}</td>
                                             <td class="py-2 px-4 border-b">{{ $transaction->formatted_payment_date }}</td>
+                                            <td class="py-2 px-4 border-b">{{ $transaction->user->name }}</td>
+                                            
                                             <td class="py-2 px-4 border-b">
                                                 <button onclick="printReceipt({{ $transaction->id }})" class="bg-gray-500 hover:bg-gray-400 text-white font-bold py-1 px-2 rounded-md transition-colors duration-200">Print Receipt</button>
                                             </td>

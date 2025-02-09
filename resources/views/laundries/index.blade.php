@@ -51,13 +51,13 @@
                         <table class="min-w-full bg-white shadow-md rounded-lg">
                             <thead>
                                 <tr>
-                                    <th class="py-2 px-4 border-b">Customer Name</th>
-                                    <th class="py-2 px-4 border-b">Phone Number</th>
-                                    <th class="py-2 px-4 border-b">Weight (kg)</th>
-                                    <th class="py-2 px-4 border-b">Date</th>
-                                    <th class="py-2 px-4 border-b">Service</th>
-                                    <th class="py-2 px-4 border-b">Total Cost</th>
-                                    <th class="py-2 px-4 border-b">Status</th>
+                                    <th class="py-2 px-4 border-b text-left">Customer Name</th>
+                                    <th class="py-2 px-4 border-b text-left">Phone Number</th>
+                                    <th class="py-2 px-4 border-b text-left">Weight (kg)</th>
+                                    <th class="py-2 px-4 border-b text-left">Date</th>
+                                    <th class="py-2 px-4 border-b text-left">Service</th>
+                                    <th class="py-2 px-4 border-b text-left">Total Cost</th>
+                                    <th class="py-2 px-4 border-b text-left">Status</th>
                                     <th class="py-2 px-4 border-b">Actions</th>
                                 </tr>
                             </thead>
@@ -106,13 +106,13 @@
                         <table class="min-w-full bg-white shadow-xl rounded-xl border-gray-300">
                             <thead>
                                 <tr>
-                                    <th class="py-2 px-4 border-b">Customer Name</th>
-                                    <th class="py-2 px-4 border-b">Phone Number</th>
-                                    <th class="py-2 px-4 border-b">Weight (kg)</th>
-                                    <th class="py-2 px-4 border-b">Date</th>
-                                    <th class="py-2 px-4 border-b">Service</th>
-                                    <th class="py-2 px-4 border-b">Total Cost</th>
-                                    <th class="py-2 px-4 border-b">Status</th>
+                                    <th class="py-2 px-4 border-b text-left">Customer Name</th>
+                                    <th class="py-2 px-4 border-b text-left">Phone Number</th>
+                                    <th class="py-2 px-4 border-b text-left">Weight (kg)</th>
+                                    <th class="py-2 px-4 border-b text-left">Date</th>
+                                    <th class="py-2 px-4 border-b text-left">Service</th>
+                                    <th class="py-2 px-4 border-b text-left">Total Cost</th>
+                                    <th class="py-2 px-4 border-b text-left">Status</th>
                                     <th class="py-2 px-4 border-b">Actions</th>
                                 </tr>
                             </thead>
