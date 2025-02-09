@@ -2,8 +2,8 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-4 lg:px-8">
             <!-- Add Laundry Button -->
-            <div class="mb-4 flex justify-between items-center ml-4 mr-4">
-                <div class=""></div>
+            <div class="mb-4 flex justify-between items-center mr-4">
+                <h1 class="text-2xl font-semibold text-gray-900">Transaction History</h1>
                 <form action="{{ route('transactions.index') }}" method="get" class="flex items-center">
                     <input type="text" name="keyword" placeholder="Search by name or phone..."
                         class="rounded-md bg-gray-100 border-gray-300 text-gray-700 focus:border-[#FCD535] focus:ring focus:ring-[#FCD535]/50 py-2 px-4">
@@ -35,39 +35,52 @@
 
 
             <div class="mt-6">
-                <h2 class="text-2xl font-semibold text-gray-900">Finished Transactions</h2>
-                <p class="text-sm text-gray-500 mb-4">The following laundry orders are finished and has been picked up.</p>
-                <div class="overflow-x-auto">
-                    <table class="min-w-full bg-white shadow-md rounded-lg">
-                        <thead>
-                            <tr>
-                                <th class="py-2 px-4 border-b">Customer Name</th>
-                                <th class="py-2 px-4 border-b">Phone Number</th>
-                                <th class="py-2 px-4 border-b">Weight</th>
-                                <th class="py-2 px-4 border-b">Service</th>
-                                <th class="py-2 px-4 border-b">Total Cost</th>
-                                <th class="py-2 px-4 border-b">Payment Date</th>
-                                <th class="py-2 px-4 border-b">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($transactions as $transaction)
-                            <tr class="hover:bg-gray-100 transition-colors duration-200">
-                                <td class="py-2 px-4 border-b">{{ $transaction->laundry->customer_name }}</td>
-                                <td class="py-2 px-4 border-b">{{ $transaction->laundry->customer_phone_number }}</td>
-                                <td class="py-2 px-4 border-b">{{ $transaction->laundry->laundry_weight }}kg</td>
-                                <td class="py-2 px-4 border-b">{{ $transaction->laundry->service->service_name }}</td>
-                                <td class="py-2 px-4 border-b">{{ $transaction->formatted_total_price }}</td>
-                                <td class="py-2 px-4 border-b">{{ $transaction->payment_date }}</td>
-                                <td class="py-2 px-4 border-b">
-                                    <button onclick="printReceipt({{ $transaction->id }})" class="bg-gray-500 hover:bg-gray-400 text-white font-bold py-1 px-2 rounded-md transition-colors duration-200">Print Receipt</button>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                @foreach ($transactionsByMonth as $month => $transactions)
+                    @php
+                        // Cek apakah ini hasil pencarian atau transaksi bulanan
+                        $isSearchResults = ($month === 'Search Results');
+                        $formattedMonth = $isSearchResults ? 'Search Results' : \Carbon\Carbon::createFromFormat('Y-m', $month)->format('F Y');
+                    @endphp
+            
+                    <h2 class="text-xl font-semibold text-gray-900 mt-8">{{ $formattedMonth }}</h2>
+                    <p class="text-sm text-gray-500 mb-4">Total Earnings: <strong>Rp{{ number_format($monthlyEarnings[$month] ?? 0, 0, ',', '.') }}</strong></p>
+            
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-white shadow-md rounded-lg mb-8">
+                            <thead>
+                                <tr>
+                                    <th class="py-2 px-4 border-b">Customer Name</th>
+                                    <th class="py-2 px-4 border-b">Phone Number</th>
+                                    <th class="py-2 px-4 border-b">Weight</th>
+                                    <th class="py-2 px-4 border-b">Service</th>
+                                    <th class="py-2 px-4 border-b">Total Cost</th>
+                                    <th class="py-2 px-4 border-b">Payment Date</th>
+                                    <th class="py-2 px-4 border-b">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($transactions as $transaction)
+                                    @if($transaction && isset($transaction->laundry)) {{-- Pastikan transaksi valid --}}
+                                        <tr class="hover:bg-gray-100 transition-colors duration-200">
+                                            <td class="py-2 px-4 border-b">{{ $transaction->laundry->customer_name }}</td>
+                                            <td class="py-2 px-4 border-b">{{ $transaction->laundry->customer_phone_number }}</td>
+                                            <td class="py-2 px-4 border-b">{{ $transaction->laundry->laundry_weight }}kg</td>
+                                            <td class="py-2 px-4 border-b">{{ $transaction->laundry->service->service_name }}</td>
+                                            <td class="py-2 px-4 border-b">{{ $transaction->formatted_total_price }}</td>
+                                            <td class="py-2 px-4 border-b">{{ $transaction->formatted_payment_date }}</td>
+                                            <td class="py-2 px-4 border-b">
+                                                <button onclick="printReceipt({{ $transaction->id }})" class="bg-gray-500 hover:bg-gray-400 text-white font-bold py-1 px-2 rounded-md transition-colors duration-200">Print Receipt</button>
+                                            </td>
+                                        </tr>
+                                    @endif
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                @endforeach
             </div>
+            
+            
         </div>
     </div>
 

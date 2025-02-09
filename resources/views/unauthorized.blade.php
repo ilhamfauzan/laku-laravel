@@ -25,7 +25,7 @@
             <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
             <div class="text-center">
                 <h2 class="text-xl font-semibold text-red-600">Not Authorized</h2>
-                <p class="mt-4 text-gray-600">You need to wait until the owner verifies your access.</p>
+                <p class="mt-4 text-gray-600">You do not have access to use this application, please contact the owner to verify you.</p>
             </div>
             <div class="mt-6 flex justify-center space-x-4">
                 <a href="{{ route('dashboard') }}" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">Refresh</a>

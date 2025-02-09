@@ -21,7 +21,7 @@
             @endif
 
             <!-- Add User Button -->
-            <div class="mb-4 flex ml-4">
+            <div class="mb-4 flex">
                 <button type="button"
                     class="bg-blue-500 hover:bg-blue-500/80 text-white font-bold py-2 px-4 rounded-md transition-colors duration-200"
                     onclick="openUserModal()">
@@ -170,7 +170,10 @@
 
     <script>
         // Show notifications with animation
-        document.querySelectorAll('.notification').forEach(notification => {
+        document.addEventListener('DOMContentLoaded', function () {
+        // Show notifications if they exist
+        setTimeout(() => {
+            document.querySelectorAll('.notification').forEach(notification => {
                 notification.classList.add('opacity-100');
             });
 
@@ -183,6 +186,8 @@
                     }, 500);
                 });
             }, 3000);
+        }, 200);
+    });
         
         function openUserModal(user = null) {
             document.getElementById('userModalTitle').textContent = user ? 'Edit User' : 'Add New User';
