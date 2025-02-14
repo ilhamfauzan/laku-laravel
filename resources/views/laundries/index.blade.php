@@ -129,6 +129,7 @@
                             </thead>
                             <tbody id="Content">
                                 @foreach ($laundries->where('status', 'Finished') as $laundry)
+                                @if (!$transactions->contains('laundry_id', $laundry->id))
                                     <tr class="hover:bg-gray-100 transition-colors duration-200">
                                         <td class="py-2 px-4 border-b">{{ $laundry->customer_name }}</td>
                                         <td class="py-2 px-4 border-b">{{ $laundry->customer_phone_number }}</td>
@@ -150,6 +151,7 @@
                                             </button>
                                         </td>
                                     </tr>
+                                @endif
                                 @endforeach
                             </tbody>
                         </table>
