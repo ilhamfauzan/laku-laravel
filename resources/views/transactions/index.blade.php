@@ -182,7 +182,7 @@
 
 
         function printReceipt(id) {
-            const url = `/transactions/${id}/printReceipt`;
+            const url = `${window.location.origin}/transactions/${id}/printReceipt`;
             const printWindow = window.open(url, '_blank');
             printWindow.focus();
             printWindow.onload = function() {
@@ -194,7 +194,7 @@
         }
 
         function printMonthlyReceipt(month) {
-            const url = `/transactions/printMonthlyReceipt/${month}`;
+            const url = `${window.location.origin}/transactions/printMonthlyReceipt/${month}`;
             const printWindow = window.open(url, '_blank');
             printWindow.focus();
             printWindow.onload = function() {
