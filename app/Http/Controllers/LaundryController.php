@@ -41,6 +41,7 @@ class LaundryController extends Controller
             'laundry_weight' => 'required|numeric',
             'laundry_date' => 'required|date',
             'service_id' => 'required|exists:services,id',
+            'description' => 'nullable|string', // Add this line
         ]);
 
         $laundry = new Laundry($request->all());
@@ -73,6 +74,7 @@ class LaundryController extends Controller
             'laundry_weight' => 'required|numeric',
             'laundry_date' => 'required|date',
             'service_id' => 'required|exists:services,id',
+            'description' => 'nullable|string', // Add this line
         ]);
 
         $laundry->update($request->all());
@@ -96,5 +98,4 @@ class LaundryController extends Controller
 
         return redirect()->route('laundries.index')->with('success', 'Laundry marked as finished.');
     }
-
 }

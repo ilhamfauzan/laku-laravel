@@ -37,6 +37,7 @@ Route::middleware(['auth', CheckAllRole::class])->group(function () {
 
     Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
     Route::get('/transactions/{transaction}/printReceipt', [TransactionController::class, 'printReceipt'])->name('transactions.printReceipt');
+    Route::get('/transactions/printMonthlyReceipt/{month}', [TransactionController::class, 'printMonthlyReceipt'])->name('transactions.printMonthlyReceipt');
 });
 
 Route::middleware(['auth', CheckOwnerRole::class])->group(function () {
@@ -53,4 +54,4 @@ Route::middleware(['auth', CheckOwnerRole::class])->group(function () {
     Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
